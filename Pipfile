@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.doubanio.com/simple/"
+verify_ssl = true
+name = "doubanio"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
+
+[packages]
+aioredis = "*"
+aiohttp = "*"
+uvloop = "*"
+colorama = "*"
+lxml = "*"
+cchardet = "*"
+requests = "*"
+sanic = "*"
