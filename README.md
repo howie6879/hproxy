@@ -74,4 +74,4 @@ DB_TYPE = 'redis'
 
 ### License
 
-hproxy is offered under the MIT 2 license.
+hproxy is offered under the MIT license.
