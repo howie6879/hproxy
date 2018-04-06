@@ -24,7 +24,7 @@ class DatabaseSetting:
     """
     db_setting = Settings.db_setting
 
-    def __init__(self, settings=None):
+    def __init__(self, settings=Settings):
         self.db_setting = getattr(settings, 'db_setting', self.db_setting)
         if not isinstance(self.db_setting.get('db_config'), dict):
             raise ValueError("Key db_config must be a dict")

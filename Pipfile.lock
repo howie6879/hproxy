@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8e18c3d7f7bee79b70237036b0fd813802bf45955a4006af4d1048813d9f6859"
+            "sha256": "205fbb9c2fc7d73b8f326de1132ff9293b9bc655dd4696b4c93dd895c484aa98"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -57,6 +57,7 @@
                 "sha256:00cff4d2dce744607335cba84e9929c3165632da2d27970dbc55802a0c7873d0",
                 "sha256:9093db5b8ddbe4b8f6885d1a6e0ad84ae3155464cbf6877c387605244c285f3c"
             ],
+            "index": "doubanio",
             "version": "==2.0.1"
         },
         "attrs": {
@@ -112,6 +113,14 @@
             ],
             "index": "doubanio",
             "version": "==0.3.9"
+        },
+        "cssselect": {
+            "hashes": [
+                "sha256:066d8bc5229af09617e24b3ca4d52f1f9092d9e061931f4184cd572885c23204",
+                "sha256:3b5103e8789da9e936a68d993b70df732d06b8bb9a337a05ed4eb52c17ef7206"
+            ],
+            "index": "doubanio",
+            "version": "==1.0.3"
         },
         "hiredis": {
             "hashes": [
@@ -215,10 +224,19 @@
             "index": "doubanio",
             "version": "==0.7.0"
         },
+        "schedule": {
+            "hashes": [
+                "sha256:1003a07c2dce12828c25a03a611a7371cedfa956e5f1b4abc32bcc94eb5a335b",
+                "sha256:a24e75fc5e5acbd204049d55329e39a2a9a3479bca2e34c7fde81386c9d8d2fa"
+            ],
+            "index": "doubanio",
+            "version": "==0.5.0"
+        },
         "ujson": {
             "hashes": [
                 "sha256:f66073e5506e91d204ab0c614a148d5aa938bdbf104751be66f8ad7a222f5f86"
             ],
+            "index": "doubanio",
             "version": "==1.35"
         },
         "urllib3": {

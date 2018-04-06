@@ -52,25 +52,87 @@ DB_TYPE = 'redis'
 
 ### 特性
 
-- [x] 多种方式进行数据存储，易扩展
+- [x] 多种方式进行数据存储，易扩展：
     - [DatabaseSetting](https://github.com/howie6879/hproxy/blob/master/hproxy/database/db_setting.py)
     - [Memory](https://github.com/howie6879/hproxy/blob/master/hproxy/database/backends/memory_database.py)
     - [Redis](https://github.com/howie6879/hproxy/blob/master/hproxy/database/backends/redis_database.py)
-
 - [x] 自定义爬虫基础部件，上手简单，统一代码风格：
     - [Field](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/field.py)
     - [Item](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/item.py)
-
-- [ ] 提供API获取代理，启动后访问 `127.0.0.1:8001/api`
+- [x] 提供API获取代理，启动后访问 `127.0.0.1:8001/api`
     - 'delete/:proxy': 'Delete a proxy'
     - 'get': 'Get an usable proxy'
     - 'list': 'List all proxies'
-
-- [ ] 定时抓取、更新
-
+- [ ] 定时抓取、更新、自动验证ip的类型：如代理类型、协议、位置
 - [ ] 利用代理免费提供网页源码抓取服务 启动后访问 `127.0.0.1:8001/`
-
 - [ ] 抓取监控
+
+### 功能描述
+
+#### 代理接口
+
+| 接口          | 描述                                                         |
+| :------------ | :----------------------------------------------------------- |
+| delete/:proxy | 删除一个代理                                                 |
+| get           | 参数valid=1，会在返回代理过程中验证一次，确保其有效，否则一直寻找，直到返回 |
+| list          | 列出所有代理，没有一个个验证                                 |
+| valid/:proxy  | 验证一个代理                                                 |
+
+``` json
+// http://127.0.0.1:8001/api/get?valid=1
+// 返回成功，开启验证参数valid=1的话speed会有值，并且默认是开启的
+{
+    status: 1,
+    info: "118.212.137.135:31288",
+    msg: "success",
+    speed: 4.5799019337
+}
+// http://127.0.0.1:8001/api/list 列出所有代理，没有一个个验证
+{
+    status: 1,
+    info: [
+    "171.39.45.6:8123",
+    "183.159.91.75:18118",
+    "111.155.116.234:8123"
+    ],
+    msg: "success"
+}
+// http://127.0.0.1:8001/api/delete/171.39.45.6:8123
+{
+    status: 1,
+    msg: "success"
+}
+// http://127.0.0.1:8001/api/valid/183.159.91.75:18118
+{
+    status: 1,
+    msg: "success",
+    speed: 0.6555871964
+}
+```
+
+
+
+### 代理网站
+
+目前代理网站如下，有优质代理网站请提交^_^
+
+- [西刺代理](http://www.xicidaili.com/)
+- [66免费代理网](http://www.66ip.cn/)
+
+### FAQ
+
+问：为什么只抓取ip以及端口？
+
+答：因为网站上代理的信息不一定准确，所以需要进一步验证，本项目会在返回代理的时候做进行验证，验证是否可用以及验证代理具体信息
+
+问：如何扩展数据存储方式？
+
+答：[BaseDatabase](https://github.com/howie6879/hproxy/blob/master/hproxy/database/base_database.py)里面定义了一些子类必须要有的方法，按照这个格式写就不会有问题
+
+问：如何扩展代理爬虫？
+
+答：同样，在[spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider)目录下找到爬虫编写规范，或者直接看某一个代理爬虫脚本的编写模式。
+
 
 ### License
 

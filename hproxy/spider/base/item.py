@@ -8,7 +8,7 @@ import requests
 from lxml import etree
 
 from hproxy.spider.base import BaseField
-from hproxy.utils import get_random_user_agent
+from hproxy.spider.proxy_tools import get_random_user_agent
 
 
 def with_metaclass(meta):

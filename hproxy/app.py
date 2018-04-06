@@ -11,7 +11,7 @@ from sanic import Sanic
 from sanic.response import redirect
 
 from hproxy.config import CONFIG
-from hproxy.database import DatabaseSetting, Settings
+from hproxy.database import DatabaseSetting
 from hproxy.views import bp_api
 
 app = Sanic(__name__)
@@ -23,7 +23,7 @@ app.static('/statics', CONFIG.BASE_DIR + '/statics/')
 
 @app.listener('before_server_start')
 async def setup_db(app, loop):
-    app.db_client = DatabaseSetting(settings=Settings)
+    app.db_client = DatabaseSetting()
 
 
 @app.middleware('request')
