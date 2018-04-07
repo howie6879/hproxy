@@ -19,6 +19,7 @@ async def api_index(request):
         'delete/:proxy': 'Delete a proxy',
         'get': 'Get an usable proxy',
         'list': 'List all proxies',
+        'valid/:proxy': 'Valid a proxy'
     }
     return json(data)
 
@@ -46,29 +47,33 @@ async def api_get(request):
 
     async def get_random_proxy(request):
         db_client = request.app.db_client
-        proxy = await db_client.get_random()
+        res = await db_client.get_random()
+        proxy = list(res.keys())[0]
         if proxy:
             ip, port = str(proxy).split(':')
             start = time.time()
             if valid == 0:
-                return 0, proxy
+                return 0, proxy, res
             isOk = get_proxy_info(ip, port)
             if isOk:
                 speed = time.time() - start
-                return speed, proxy
+                return speed, proxy, res
             else:
                 # Delete invalid proxy
                 await db_client.delete(proxy)
                 await get_random_proxy(request)
         else:
-            return None, None
+            return None, None, None
 
     try:
-        speed, proxy = await get_random_proxy(request)
+        speed, proxy, res = await get_random_proxy(request)
         if speed is not None:
             result = {
                 'status': 1,
-                'info': proxy,
+                'info': {
+                    'proxy': proxy,
+                    'details': res[proxy]
+                },
                 'msg': 'success',
                 'speed': speed
             }

@@ -50,22 +50,28 @@ class MemoryDatabase(BaseDatabase):
         """
         Return all values
         """
-        all_keys = self._cache.get(self.name, {}).keys()
-        return list(all_keys) if all_keys else default
+        all_dict = self._cache.get(self.name, {})
+        return all_dict if all_dict else default
 
     async def get_random(self, default=None, **kwargs):
         """
         Return a random value
         """
-        all_keys = await self.get_all()
-        return random.choice(all_keys) if all_keys else default
+        all_dict = await self.get_all()
+        if all_dict:
+            key = random.choice(list(all_dict.keys()))
+            return {
+                key: all_dict[key]
+            }
+        else:
+            return default
 
-    async def insert(self, field, **kwargs):
+    async def insert(self, field, value={}, **kwargs):
         """
         insert the value
         """
         try:
-            self._cache.get(self.name, {})[field] = self._cache.get(self.name, {}).get(field, 0) + 1
+            self._cache.get(self.name, {})[field] = value
             return True
         except:
             return False
@@ -79,14 +85,18 @@ if __name__ == '__main__':
 
     memory_client = MemoryDatabase()
 
-    print(asyncio.get_event_loop().run_until_complete(memory_client.insert(field='1')))
-    print(asyncio.get_event_loop().run_until_complete(memory_client.insert(field='127.0.0.1:8001')))
-    print(asyncio.get_event_loop().run_until_complete(memory_client.insert(field='127.0.0.1:8002')))
-    print(asyncio.get_event_loop().run_until_complete(memory_client.insert(field='127.0.0.1:8003')))
-    print(asyncio.get_event_loop().run_until_complete(memory_client.exists(field='1')))
+    print(asyncio.get_event_loop().run_until_complete(
+        memory_client.insert(field='127.0.0.1:8001', value={'a': 1, 'b': 2})))
+    print(asyncio.get_event_loop().run_until_complete(
+        memory_client.insert(field='127.0.0.1:8002', value={'a': 2, 'b': 2})))
+    print(asyncio.get_event_loop().run_until_complete(
+        memory_client.insert(field='127.0.0.1:8003', value={'a': 3, 'b': 2})))
+    print(asyncio.get_event_loop().run_until_complete(memory_client.get_all()))
+
+    print(asyncio.get_event_loop().run_until_complete(memory_client.exists(field='127.0.0.1:8001')))
     print(asyncio.get_event_loop().run_until_complete(memory_client.get_random()))
     print(asyncio.get_event_loop().run_until_complete(memory_client.get_all()))
 
-    asyncio.get_event_loop().run_until_complete(memory_client.delete('1'))
-    print(asyncio.get_event_loop().run_until_complete(memory_client.exists(field='1')))
+    asyncio.get_event_loop().run_until_complete(memory_client.delete('127.0.0.1:8001'))
+    print(asyncio.get_event_loop().run_until_complete(memory_client.exists(field='127.0.0.1:8001')))
     print(asyncio.get_event_loop().run_until_complete(memory_client.get_all()))

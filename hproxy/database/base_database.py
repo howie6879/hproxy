@@ -50,7 +50,7 @@ class BaseDatabase(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def insert(self, field, **kwargs):
+    def insert(self, field, value={}, **kwargs):
         """
         insert the field
         """
