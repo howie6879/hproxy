@@ -64,11 +64,11 @@ class DatabaseSetting:
         """
         return await self.instance.get_random(default=default, **kwargs)
 
-    async def insert(self, field, **kwargs):
+    async def insert(self, field, value={}, **kwargs):
         """
         insert the value
         """
-        return await self.instance.insert(field, **kwargs)
+        return await self.instance.insert(field, value=value, **kwargs)
 
 
 if __name__ == '__main__':
@@ -76,16 +76,15 @@ if __name__ == '__main__':
 
     memory_client = DatabaseSetting()
 
-    print(asyncio.get_event_loop().run_until_complete(memory_client.insert(field='1')))
-    print(asyncio.get_event_loop().run_until_complete(memory_client.insert(field='127.0.0.1:8001')))
-    print(asyncio.get_event_loop().run_until_complete(memory_client.insert(field='127.0.0.1:8002')))
-    print(asyncio.get_event_loop().run_until_complete(memory_client.insert(field='127.0.0.1:8003')))
-    print(asyncio.get_event_loop().run_until_complete(memory_client.exists(field='1')))
+    print(asyncio.get_event_loop().run_until_complete(
+        memory_client.insert(field='127.0.0.1:8001', value={'a': 1, 'b': 2})))
+    print(asyncio.get_event_loop().run_until_complete(memory_client.exists(field='127.0.0.1:8001')))
+    print(asyncio.get_event_loop().run_until_complete(memory_client.get(field='127.0.0.1:8001')))
     print(asyncio.get_event_loop().run_until_complete(memory_client.get_random()))
     print(asyncio.get_event_loop().run_until_complete(memory_client.get_all()))
 
-    asyncio.get_event_loop().run_until_complete(memory_client.delete('1'))
-    print(asyncio.get_event_loop().run_until_complete(memory_client.exists(field='1')))
+    asyncio.get_event_loop().run_until_complete(memory_client.delete('127.0.0.1:8001'))
+    print(asyncio.get_event_loop().run_until_complete(memory_client.exists(field='127.0.0.1:8001')))
     print(asyncio.get_event_loop().run_until_complete(memory_client.get_all()))
 
     # redis
@@ -112,13 +111,15 @@ if __name__ == '__main__':
 
     redis_client = DatabaseSetting(settings=Settings)
 
-    print(asyncio.get_event_loop().run_until_complete(redis_client.insert(field='1')))
-    print(asyncio.get_event_loop().run_until_complete(redis_client.exists(field='1')))
-    # print(asyncio.get_event_loop().run_until_complete(redis_client.get_all()))
-    # print(asyncio.get_event_loop().run_until_complete(redis_client.get_random()))
-    # print(asyncio.get_event_loop().run_until_complete(redis_client.get(field='127.0.0.1:8003')))
+    print(asyncio.get_event_loop().run_until_complete(
+        redis_client.insert(field='127.0.0.1:8001', value={'a': 1, 'b': 2})))
+    print(asyncio.get_event_loop().run_until_complete(redis_client.exists(field='127.0.0.1:8001')))
     print(asyncio.get_event_loop().run_until_complete(redis_client.get_all()))
 
-    print(asyncio.get_event_loop().run_until_complete(redis_client.delete('1')))
-    print(asyncio.get_event_loop().run_until_complete(redis_client.exists(field='1')))
+    print(asyncio.get_event_loop().run_until_complete(redis_client.get_random()))
+    print(asyncio.get_event_loop().run_until_complete(redis_client.get(field='127.0.0.1:8001')))
+    print(asyncio.get_event_loop().run_until_complete(redis_client.get_all()))
+
+    print(asyncio.get_event_loop().run_until_complete(redis_client.delete('127.0.0.1:8001')))
+    print(asyncio.get_event_loop().run_until_complete(redis_client.exists(field='127.0.0.1:8001')))
     print(asyncio.get_event_loop().run_until_complete(redis_client.get_all()))
