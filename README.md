@@ -1,5 +1,7 @@
 ## hproxy - 异步IP代理池
 
+[![Build Status](https://travis-ci.org/howie6879/hproxy.svg?branch=master)](https://travis-ci.org/howie6879/hproxy)
+
 本项目利用第三方IP代理提供站定时抓取有效IP，并免费提供网页源数据抓取方案
 
 ``` txt
