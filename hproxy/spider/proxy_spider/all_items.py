@@ -3,7 +3,7 @@
  Created by howie.hu at 06/04/2018.
 """
 
-from hproxy.spider.base import Item, TextField, AttrField
+from hproxy.spider.base_spider import Item, TextField, AttrField
 
 
 class XCDLItem(Item):

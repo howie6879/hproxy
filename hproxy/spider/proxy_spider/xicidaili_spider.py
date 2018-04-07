@@ -6,7 +6,7 @@ import asyncio
 
 from hproxy.database import DatabaseSetting
 
-from hproxy.spider.base import ProxySpider
+from hproxy.spider.base_spider import ProxySpider
 from hproxy.spider.proxy_spider import XCDLItem
 from hproxy.spider.proxy_tools import request_url_by_aiohttp, get_proxy_info
 

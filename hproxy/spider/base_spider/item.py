@@ -7,7 +7,7 @@ import requests
 
 from lxml import etree
 
-from hproxy.spider.base import BaseField
+from hproxy.spider.base_spider import BaseField
 from hproxy.spider.proxy_tools import get_random_user_agent
 
 
