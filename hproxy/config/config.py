@@ -22,5 +22,5 @@ class Config():
     TEST_URL = {
         'http': 'http://httpbin.org/get',
         'https': 'https://httpbin.org/get',
-        'timeout': 10
+        'timeout': 5
     }

@@ -28,6 +28,8 @@ pipenv install
 # 安装依赖库之后
 cd hproxy
 python app.py
+
+# 启动爬虫 运行 /hproxy/hproxy/spider/spider_console.py
 ```
 
 hproxy默认使用Redis进行数据存储服务，所以使用的前提是安装好Redis，具体配置在`config`下：
@@ -46,7 +48,7 @@ DB_TYPE = 'redis'
 
 如果想使用机器本身的`Memory`，直接在`config`里将`DB_TYPE = 'redis'`更改为`DB_TYPE = 'memory'`
 
-这里需要注意的是服务停止了数据也随之丢失
+这里需要注意的是如果使用`memory`模式，那么服务停止了数据也随之丢失
 
 如果想使用其他方式进行数据存储，只需根据[BaseDatabase](https://github.com/howie6879/hproxy/blob/master/hproxy/database/base_database.py)的编码规范进行扩展即可
 
@@ -68,6 +70,12 @@ DB_TYPE = 'redis'
 - [ ] 抓取监控
 
 ### 功能描述
+
+#### 代理获取
+
+本项目的爬虫代码全部集中于目录[spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider)，`/spider/proxy_spider/`目录下定义了一系列代理网站的爬虫，所有爬虫基于`/spider/base/proxy_spider.py`里定义的规范编写
+
+运行`/hproxy/hproxy/spider/spider_console.py`文件，即可启动全部爬虫进行代理的获取
 
 #### 代理接口
 

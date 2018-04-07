@@ -4,3 +4,4 @@
 """
 from .field import AttrField, BaseField, TextField
 from .item import Item
+from .proxy_spider import ProxySpider
