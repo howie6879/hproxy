@@ -41,14 +41,14 @@ class XCDLSpider(ProxySpider):
                         self.logger.info(type='无效代理', message="{0}:{1} 已丢弃".format(ip, port))
 
 
-def start():
+async def start():
     """
     Start spider
     :return:
     """
-    XCDLSpider.start()
+    await XCDLSpider.start()
 
 
 if __name__ == '__main__':
     # Start
-    start()
+    asyncio.get_event_loop().run_until_complete(start())

@@ -73,9 +73,9 @@ DB_TYPE = 'redis'
 
 #### 代理获取
 
-本项目的爬虫代码全部集中于目录[spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider)，`/spider/proxy_spider/`目录下定义了一系列代理网站的爬虫，所有爬虫基于`/spider/base/proxy_spider.py`里定义的规范编写
+本项目的爬虫代码全部集中于目录[spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider)，在[/spider/proxy_spider/](https://github.com/howie6879/hproxy/tree/master/hproxy/spider/proxy_spider)目录下定义了一系列代理网站的爬虫，所有爬虫基于[/spider/base/proxy_spider.py](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/proxy_spider.py)里定义的规范编写，参考这些，就可以很方便的扩展一系列代理爬虫
 
-运行`/hproxy/hproxy/spider/spider_console.py`文件，即可启动全部爬虫进行代理的获取
+运行[spider_console.py](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/spider_console.py)文件，即可启动全部爬虫进行代理的获取，无需定义新加的爬虫脚本，只需按照规范命名，即可自动获取爬虫模块然后运行
 
 #### 代理接口
 
