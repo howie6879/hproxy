@@ -24,7 +24,7 @@ class TestMemoryDatabase(unittest.TestCase):
         memory_client = DatabaseSetting(settings=Settings)
         asyncio.get_event_loop().run_until_complete(memory_client.insert(field='127.0.0.1:8001'))
         res = asyncio.get_event_loop().run_until_complete(memory_client.get_random(field='127.0.0.1:8001'))
-        assert res == '127.0.0.1:8001'
+        assert res == {'127.0.0.1:8001': {}}
 
 
 if __name__ == '__main__':
