@@ -20,7 +20,7 @@ class Config():
 
     # URL config
     TEST_URL = {
-        'http': 'http://httpbin.org/get',
-        'https': 'https://httpbin.org/get',
+        'http': 'http://httpbin.org/get?show_env=1',
+        'https': 'https://httpbin.org/get?show_env=1',
         'timeout': 5
     }

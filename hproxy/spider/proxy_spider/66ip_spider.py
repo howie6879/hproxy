@@ -29,11 +29,11 @@ class SSIPSpider(ProxySpider):
                 for each in items_data:
                     if each.values:
                         ip, port = each.values
-                        isValid = get_proxy_info(ip, port)
-                        if isValid:
+                        isOk, info = await get_proxy_info(ip, port, getInfo=True)
+                        if isOk:
                             # Save proxy
                             try:
-                                await db_client.insert(field="{0}:{1}".format(ip, port))
+                                await db_client.insert(field="{0}:{1}".format(ip, port), value=info)
                                 self.logger.info(type='有效代理',
                                                  message="{0}: {1}:{2} 已存储".format(self.spider_name, ip, port))
                             except Exception as e:

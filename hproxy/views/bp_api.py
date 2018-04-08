@@ -54,7 +54,7 @@ async def api_get(request):
             start = time.time()
             if valid == 0:
                 return 0, proxy, res
-            isOk = get_proxy_info(ip, port)
+            isOk = await get_proxy_info(ip, port)
             if isOk:
                 speed = time.time() - start
                 return speed, proxy, res
@@ -113,7 +113,7 @@ async def api_valid(request, proxy):
     try:
         ip, port = str(proxy).split(':')
         start = time.time()
-        isOk = get_proxy_info(ip, port)
+        isOk = await get_proxy_info(ip, port)
         if isOk:
             speed = time.time() - start
             result = {
