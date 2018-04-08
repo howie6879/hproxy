@@ -65,6 +65,7 @@ DB_TYPE = 'redis'
     - 'delete/:proxy': 'Delete a proxy'
     - 'get': 'Get an usable proxy'
     - 'list': 'List all proxies'
+    - ...
 - [ ] 定时抓取、更新、自动验证ip的类型：如代理类型、协议、位置
 - [ ] 利用代理免费提供网页源码抓取服务 启动后访问 `127.0.0.1:8001/`
 - [ ] 抓取监控
@@ -122,13 +123,6 @@ DB_TYPE = 'redis'
 }
 ```
 
-### 代理网站
-
-目前代理网站如下，有优质代理网站请提交^_^
-
-- [西刺代理](http://www.xicidaili.com/)
-- [66免费代理网](http://www.66ip.cn/)
-
 ### FAQ
 
 问：为什么只抓取ip以及端口？
@@ -141,12 +135,11 @@ DB_TYPE = 'redis'
 
 问：如何扩展代理爬虫？
 
-答：同样，在[spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider)目录下找到爬虫编写规范，或者直接看某一个代理爬虫脚本的编写模式。
+答：同样，在[spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider)目录下找到爬虫编写规范，或者直接看某一个代理爬虫脚本的编写模式
 
-### 贡献
+### License
 
-- Issue
-- PR
+hproxy is offered under the MIT license.
 
 ### 参考
 
@@ -155,6 +148,7 @@ DB_TYPE = 'redis'
 - [IPProxyPool](https://github.com/qiyeboy/IPProxyPool)
 - [proxy_pool](https://github.com/jhao104/proxy_pool)
 
-### License
+感谢以下网站，有优质代理网站请提交^_^
 
-hproxy is offered under the MIT license.
+- [西刺代理](http://www.xicidaili.com/)
+- [66免费代理网](http://www.66ip.cn/)
