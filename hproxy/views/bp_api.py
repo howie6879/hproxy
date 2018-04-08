@@ -8,7 +8,8 @@ from sanic import Blueprint
 from sanic.response import html, json, text
 from sanic.exceptions import NotFound
 
-from hproxy.spider.proxy_tools import get_proxy_info
+from hproxy.utils import logger
+from hproxy.spider.proxy_tools import get_proxy_info, request_url_by_aiohttp
 
 bp_api = Blueprint(name='bp_api', url_prefix='api')
 
@@ -44,36 +45,12 @@ async def api_delete(request, proxy):
 @bp_api.route('/get')
 async def api_get(request):
     valid = request.args.get('valid', 1)
-
-    async def get_random_proxy(request):
-        db_client = request.app.db_client
-        res = await db_client.get_random()
-        proxy = list(res.keys())[0]
-        if proxy:
-            ip, port = str(proxy).split(':')
-            start = time.time()
-            if valid == 0:
-                return 0, proxy, res
-            isOk = await get_proxy_info(ip, port)
-            if isOk:
-                speed = time.time() - start
-                return speed, proxy, res
-            else:
-                # Delete invalid proxy
-                await db_client.delete(proxy)
-                await get_random_proxy(request)
-        else:
-            return None, None, None
-
     try:
-        speed, proxy, res = await get_random_proxy(request)
+        speed, res_dict = await get_random_proxy(request, valid)
         if speed is not None:
             result = {
                 'status': 1,
-                'info': {
-                    'proxy': proxy,
-                    'details': res[proxy]
-                },
+                'info': res_dict,
                 'msg': 'success',
                 'speed': speed
             }
@@ -83,11 +60,54 @@ async def api_get(request):
                 'msg': '查询失败，请重试',
             }
     except Exception as e:
+        logger.exception(type='/get', message=str(e))
         result = {
             'status': -1,
             'msg': '查询出错',
         }
     return json(result)
+
+
+@bp_api.route('/html')
+async def api_html(request):
+    url = request.args.get('url')
+    # TODO
+    ajax = request.args.get('ajax', 0)
+    foreign = request.args.get('foreign', 0)
+    if url:
+        speed, res_dict = await get_random_proxy(request)
+        try:
+            proxy = res_dict.get('proxy')
+            html_res = await request_url_by_aiohttp(url=url, proxy='http://' + proxy)
+            if html_res:
+                return json({
+                    'status': 1,
+                    'info': {
+                        'html': html_res,
+                        'proxy': proxy
+                    },
+                    'msg': 'success'
+                })
+            else:
+                return json({
+                    'status': -1,
+                    'info': {
+                        'proxy': proxy,
+                        'details': proxy
+                    },
+                    'msg': '抓取失败'
+                })
+
+        except:
+            return json({
+                'status': -1,
+                'msg': '抓取失败'
+            })
+    else:
+        return json({
+            'status': -1,
+            'msg': 'URL is required'
+        })
 
 
 @bp_api.route('/list')
@@ -134,3 +154,30 @@ async def api_valid(request, proxy):
             'msg': '删除出错',
         }
     return json(result)
+
+
+async def get_random_proxy(request, valid=1):
+    try:
+        db_client = request.app.db_client
+        res = await db_client.get_random()
+        if res:
+            res_dict = list(res.values())[0]
+            proxy = res_dict.get('proxy')
+            ip, port = str(proxy).split(':')
+            start = time.time()
+            if valid == 0:
+                return 0, res_dict
+            else:
+                isOk = await get_proxy_info(ip, port)
+                if isOk:
+                    speed = time.time() - start
+                    return speed, res_dict
+                else:
+                    # Delete invalid proxy
+                    await db_client.delete(proxy)
+                    speed, res_dict = await get_random_proxy(request)
+                    return speed, res_dict
+        else:
+            return None, None
+    except Exception as e:
+        return None, None

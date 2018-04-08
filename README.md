@@ -62,13 +62,14 @@ DB_TYPE = 'redis'
     - [Field](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/field.py)
     - [Item](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/item.py)
 - [x] 提供API获取代理，启动后访问 `127.0.0.1:8001/api`
-    - 'delete/:proxy': 'Delete a proxy'
-    - 'get': 'Get an usable proxy'
-    - 'list': 'List all proxies'
+    - 'delete/:proxy': 删除代理
+    - 'get': 随机选择一个代理
+    - 'list':列出全部代理
     - ...
-- [ ] 定时抓取、更新、自动验证ip的类型：如代理类型、协议、位置
-- [ ] 利用代理免费提供网页源码抓取服务 启动后访问 `127.0.0.1:8001/`
-- [ ] 抓取监控
+
+
+- [x] 定时抓取、更新、自动验证ip的类型：如代理类型、协议、位置
+- [x] 从代理池随机选取一个keys代理提供html源码抓取服务
 
 ### 功能描述
 
@@ -80,33 +81,39 @@ DB_TYPE = 'redis'
 
 #### 代理接口
 
-| 接口          | 描述                                                         |
-| :------------ | :----------------------------------------------------------- |
-| delete/:proxy | 删除一个代理                                                 |
-| get           | 参数valid=1，会在返回代理过程中验证一次，确保其有效，否则一直寻找，直到返回 |
-| list          | 列出所有代理，没有一个个验证                                 |
-| valid/:proxy  | 验证一个代理                                                 |
+| 接口                         | 描述                                                         |
+| :--------------------------- | :----------------------------------------------------------- |
+| delete/:proxy                | 删除一个代理                                                 |
+| get                          | 参数valid=1，会在返回代理过程中验证一次，确保其有效，否则一直寻找，直到返回 |
+| list                         | 列出所有代理，没有一个个验证                                 |
+| valid/:proxy                 | 验证一个代理                                                 |
+| html?url=''&ajax=0&foreign=0 | 随机选取代理请求url并返回                                    |
 
 ``` json
 // http://127.0.0.1:8001/api/get?valid=1
 // 返回成功，开启验证参数valid=1的话speed会有值，并且默认是开启的
+// types 1:高匿 2:匿名 3:透明
 {
     "status": 1,
     "info": {
-        "proxy": "120.77.254.116:3128",
-        "details": {}
+        "proxy": "101.37.79.125:3128",
+        "types": 3
     },
     "msg": "success",
-    "speed": 0.3163290024
+    "speed": 2.4909408092
 }
 // http://127.0.0.1:8001/api/list 列出所有代理，没有一个个验证
 {
     "status": 1,
     "info": {
-        "183.159.90.31:18118": {},
-        "119.28.138.104:3128": {},
-        "122.114.31.177:808": {},
-        "61.135.217.7:80": {}
+        "180.168.184.179:53128": {
+            "proxy": "180.168.184.179:53128",
+            "types": 3
+        },
+        "101.37.79.125:3128": {
+            "proxy": "101.37.79.125:3128",
+            "types": 3
+        }
     },
     "msg": "success"
 }
@@ -120,6 +127,16 @@ DB_TYPE = 'redis'
     "status": 1,
     "msg": "success",
     "speed": 0.3361008167
+}
+// http://127.0.0.1:8001/api/html?url=https://www.v2ex.com
+// 随机选取代理抓取v2ex
+{
+    "status": 1,
+    "info": {
+        "html": "html 源码",
+        "proxy": "120.77.254.116:3128"
+    },
+    "msg": "success"
 }
 ```
 

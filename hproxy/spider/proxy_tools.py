@@ -85,6 +85,7 @@ async def valid_proxies(ip, port):
             else:
                 types = 1
             info = {
+                'proxy': "{ip}:{port}".format(ip=ip, port=port),
                 'types': types
             }
             return True, info
@@ -146,7 +147,7 @@ def _get_data(filename, default=''):
 if __name__ == '__main__':
     import asyncio
 
-    ip, port = '39.134.10.21', 8080
+    ip, port = '182.45.176.77', 6666
     proxies = {
         "http": "http://{ip}:{port}".format(ip=ip, port=port),
         "https": "https://{ip}:{port}".format(ip=ip, port=port)
