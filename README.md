@@ -19,7 +19,6 @@
 本项目基于Python3.6+，利用Sanic构建异步HTTP服务，利用`aiohttp`进行代理数据异步抓取
 
 ``` shell
-
 git clone https://github.com/howie6879/hproxy.git
 cd hproxy
 pip install pipenv
@@ -37,7 +36,6 @@ python app.py
 hproxy默认使用Redis进行数据存储服务，所以使用的前提是安装好Redis，具体配置在`config`下：
 
 ``` python
-
 # Database config
 REDIS_DICT = dict(
     REDIS_ENDPOINT=os.getenv('REDIS_ENDPOINT', "localhost"),
@@ -54,7 +52,7 @@ DB_TYPE = 'redis'
 
 如果想使用其他方式进行数据存储，只需根据[BaseDatabase](https://github.com/howie6879/hproxy/blob/master/hproxy/database/base_database.py)的编码规范进行扩展即可
 
-### 特性
+### 特性 
 
 - [x] 多种方式进行数据存储，易扩展：
     - [DatabaseSetting](https://github.com/howie6879/hproxy/blob/master/hproxy/database/db_setting.py)
@@ -92,38 +90,37 @@ DB_TYPE = 'redis'
 // http://127.0.0.1:8001/api/get?valid=1
 // 返回成功，开启验证参数valid=1的话speed会有值，并且默认是开启的
 {
-    status: 1,
-    info: {
-        proxy: "119.28.112.130:3128",
-        details: { }
+    "status": 1,
+    "info": {
+        "proxy": "120.77.254.116:3128",
+        "details": {}
     },
-    msg: "success",
-    speed: 0.4441831112
+    "msg": "success",
+    "speed": 0.3163290024
 }
 // http://127.0.0.1:8001/api/list 列出所有代理，没有一个个验证
 {
-    status: 1,
-    info: [
-    "171.39.45.6:8123",
-    "183.159.91.75:18118",
-    "111.155.116.234:8123"
-    ],
-    msg: "success"
+    "status": 1,
+    "info": {
+        "183.159.90.31:18118": {},
+        "119.28.138.104:3128": {},
+        "122.114.31.177:808": {},
+        "61.135.217.7:80": {}
+    },
+    "msg": "success"
 }
 // http://127.0.0.1:8001/api/delete/171.39.45.6:8123
 {
-    status: 1,
-    msg: "success"
+    "status": 1,
+    "msg": "success"
 }
 // http://127.0.0.1:8001/api/valid/183.159.91.75:18118
 {
-    status: 1,
-    msg: "success",
-    speed: 0.6555871964
+    "status": 1,
+    "msg": "success",
+    "speed": 0.3361008167
 }
 ```
-
-
 
 ### 代理网站
 

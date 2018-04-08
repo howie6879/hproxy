@@ -80,7 +80,7 @@ async def api_get(request):
         else:
             result = {
                 'status': -1,
-                'msg': '查询失败',
+                'msg': '查询失败，请重试',
             }
     except Exception as e:
         result = {

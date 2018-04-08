@@ -24,13 +24,13 @@ class Logger:
         self.logger.setLevel(level)
 
     def info(self, type, message, color=Fore.CYAN):
-        self.logger.info(color + '[%-6s] %-2s %s' % (type, 'OK', message) + Style.RESET_ALL)
+        self.logger.info(color + '[%-8s] %-2s %s' % (type, 'OK', message) + Style.RESET_ALL)
 
     def error(self, type, message, color=Fore.RED):
-        self.logger.error(color + '[%-6s] %-4s %s' % (type, 'FAIL', message) + Style.RESET_ALL)
+        self.logger.error(color + '[%-8s] %-4s %s' % (type, 'FAIL', message) + Style.RESET_ALL)
 
     def exception(self, type, message, color=Fore.RED):
-        self.logger.error(color + '[%-6s] %-5s %s' % (type, 'ERROR', message) + Style.RESET_ALL)
+        self.logger.error(color + '[%-8s] %-5s %s' % (type, 'ERROR', message) + Style.RESET_ALL)
 
 
 logger = Logger('hproxy')
