@@ -143,6 +143,17 @@ DB_TYPE = 'redis'
 
 答：同样，在[spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider)目录下找到爬虫编写规范，或者直接看某一个代理爬虫脚本的编写模式。
 
+### 贡献
+
+- Issue
+- PR
+
+### 参考
+
+感谢以下项目：
+
+- [IPProxyPool](https://github.com/qiyeboy/IPProxyPool)
+- [proxy_pool](https://github.com/jhao104/proxy_pool)
 
 ### License
 
