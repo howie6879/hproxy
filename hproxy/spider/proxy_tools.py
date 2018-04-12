@@ -20,7 +20,7 @@ except:
     from json import loads as json_loads
 
 
-async def fetch(client, url, proxy, timeout,params=None):
+async def fetch(client, url, proxy, timeout, params=None):
     with async_timeout.timeout(15):
         try:
             headers = {'user-agent': get_random_user_agent()}
