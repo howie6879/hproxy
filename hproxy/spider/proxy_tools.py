@@ -20,11 +20,11 @@ except:
     from json import loads as json_loads
 
 
-async def fetch(client, url, proxy, timeout):
+async def fetch(client, url, proxy, timeout, params=None):
     with async_timeout.timeout(15):
         try:
             headers = {'user-agent': get_random_user_agent()}
-            async with client.get(url, headers=headers, proxy=proxy, timeout=timeout) as response:
+            async with client.get(url, headers=headers, proxy=proxy, timeout=timeout,params = params) as response:
                 assert response.status == 200
                 logger.info(type='抓取成功', message='Task url: {}'.format(response.url))
                 try:
@@ -37,7 +37,7 @@ async def fetch(client, url, proxy, timeout):
             return None
 
 
-async def request_url_by_aiohttp(url, proxy=None, timeout=15):
+async def request_url_by_aiohttp(url, proxy=None, timeout=15,params = None ):
     """
     Request a url by aiohttp
     :param url:
@@ -45,7 +45,7 @@ async def request_url_by_aiohttp(url, proxy=None, timeout=15):
     :return:
     """
     async with aiohttp.ClientSession() as client:
-        html = await fetch(client=client, url=url, proxy=proxy, timeout=timeout)
+        html = await fetch(client=client, url=url, proxy=proxy, timeout=timeout,params=params)
         return html if html else None
 
 
