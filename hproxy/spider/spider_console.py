@@ -4,10 +4,12 @@
 """
 import asyncio
 import os
+import time
 
 from importlib import import_module
 
 from hproxy.config import CONFIG
+from hproxy.utils import logger
 
 
 def file_name(file_dir=os.path.join(CONFIG.BASE_DIR, 'spider/proxy_spider')):
@@ -24,11 +26,13 @@ def file_name(file_dir=os.path.join(CONFIG.BASE_DIR, 'spider/proxy_spider')):
 
 
 async def spider_console():
+    start = time.time()
     all_files = file_name()
     for spider in all_files:
         spider_module = import_module(
             "hproxy.spider.proxy_spider.{}".format(spider))
         await spider_module.start()
+    logger.info(type="爬虫执行结束", message="用时：{0}".format(time.time() - start))
 
 
 if __name__ == '__main__':

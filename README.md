@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/howie6879/hproxy.svg?branch=master)](https://travis-ci.org/howie6879/hproxy)
 
-本项目利用第三方IP代理提供站定时抓取有效IP，并免费提供网页源数据抓取方案
+本项目利用第三方IP代理提供站定时抓取有效IP，并免费提供网页源数据抓取方案，构建异步IP代理池
 
 ``` txt
 
@@ -79,6 +79,27 @@ DB_TYPE = 'redis'
 本项目的爬虫代码全部集中于目录[spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider)，在[/spider/proxy_spider/](https://github.com/howie6879/hproxy/tree/master/hproxy/spider/proxy_spider)目录下定义了一系列代理网站的爬虫，所有爬虫基于[/spider/base/proxy_spider.py](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/proxy_spider.py)里定义的规范编写，参考这些，就可以很方便的扩展一系列代理爬虫
 
 运行[spider_console.py](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/spider_console.py)文件，即可启动全部爬虫进行代理的获取，无需定义新加的爬虫脚本，只需按照规范命名，即可自动获取爬虫模块然后运行
+
+若想运行单个代理爬虫脚本，直接运行即可，比如`xicidaili`，直接执行：
+
+``` shell
+cd hproxy/hproxy/spider/proxy_spider/
+python xicidaili_spider.py
+
+# 验证100个代理，异步执行能保证5秒左右执行完毕，因为超时代理超时就是5s
+# 同步执行最坏情况就...
+# 2018/04/14 13:42:32 [爬虫执行结束  ] OK 爬虫：xicidaili 执行结束，获取代理100个 - 有效代理：28个，用时：5.384464740753174 
+```
+
+#### 代理验证
+
+获取的代理验证脚本在[valid_proxy](https://github.com/howie6879/hproxy/blob/master/hproxy/schedule/valid_proxy.py)，目前设定每60分钟验证一次所有代理，每个代理失败五次之后就丢弃，一般在后台运行，手动执行如下：
+
+``` shell
+cd hproxy/hproxy/schedule/
+# 记得修改成直接执行
+python valid_proxy.py
+```
 
 #### 代理接口
 

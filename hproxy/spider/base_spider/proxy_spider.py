@@ -28,6 +28,10 @@ class ProxySpider():
         """It is a necessary method"""
         raise NotImplementedError
 
+    async def save_proxy(self, ip_info):
+        """It is a necessary method"""
+        raise NotImplementedError
+
     @classmethod
     async def start(cls):
         """Start a spider"""
