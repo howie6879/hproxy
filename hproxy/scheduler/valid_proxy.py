@@ -3,12 +3,7 @@
  Created by howie.hu at 08/04/2018.
 """
 import asyncio
-import sys
 import time
-
-import schedule
-
-sys.path.append('../../')
 
 from hproxy.database import DatabaseSetting
 from hproxy.utils import logger
@@ -19,7 +14,6 @@ db_client = DatabaseSetting()
 
 async def valid_proxies():
     all_res = await db_client.get_all()
-    print(len(all_res))
     start = time.time()
     tasks = []
     if all_res:
@@ -47,18 +41,16 @@ async def valid_proxy(proxy, nums=1):
         isOk = await  get_proxy_info(ip, port)
         if not isOk:
             logger.error(type='无效代理', message="{0}：第 {1} 次重试".format(proxy, nums))
-            await valid_proxy(proxy, nums=nums + 1)
+            res = await valid_proxy(proxy, nums=nums + 1)
+            return res
         else:
             logger.info(type='有效代理', message="{0} 有效".format(proxy))
             return True
 
 
-def refresh():
+def refresh_proxy():
     asyncio.get_event_loop().run_until_complete(valid_proxies())
 
 
-schedule.every(60).minutes.do(refresh)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+if __name__ == '__main__':
+    refresh_proxy()

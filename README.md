@@ -28,7 +28,7 @@ pipenv install
 
 # 安装依赖库之后
 cd hproxy
-python app.py
+python server.py
 
 # 启动爬虫 运行 /hproxy/hproxy/spider/spider_console.py
 ```
@@ -93,10 +93,10 @@ python xicidaili_spider.py
 
 #### 代理验证
 
-获取的代理验证脚本在[valid_proxy](https://github.com/howie6879/hproxy/blob/master/hproxy/schedule/valid_proxy.py)，目前设定每60分钟验证一次所有代理，每个代理失败五次之后就丢弃，一般在后台运行，手动执行如下：
+获取的代理验证脚本在[valid_proxy](https://github.com/howie6879/hproxy/blob/master/hproxy/scheduler/valid_proxy.py)，目前设定每60分钟验证一次所有代理，每个代理失败五次之后就丢弃，一般在后台运行，手动执行如下：
 
 ``` shell
-cd hproxy/hproxy/schedule/
+cd hproxy/hproxy/scheduler/
 # 记得修改成直接执行
 python valid_proxy.py
 ```
@@ -187,7 +187,4 @@ hproxy is offered under the MIT license.
 - [IPProxyPool](https://github.com/qiyeboy/IPProxyPool)
 - [proxy_pool](https://github.com/jhao104/proxy_pool)
 
-感谢以下网站，有优质代理网站请提交^_^
-
-- [西刺代理](http://www.xicidaili.com/)
-- [66免费代理网](http://www.66ip.cn/)
+感谢以下代理网站，有优质代理网站请提交^_^，点这里 [#3](https://github.com/howie6879/hproxy/issues/3)

@@ -5,7 +5,7 @@
 import os
 import sys
 
-sys.path.append(os.path.dirname(os.getcwd()))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from sanic import Sanic
 from sanic.response import redirect
