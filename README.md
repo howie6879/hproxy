@@ -48,7 +48,7 @@ DB_TYPE = 'redis'
 
 如果想使用机器本身的`Memory`，直接在`config`里将`DB_TYPE = 'redis'`更改为`DB_TYPE = 'memory'`
 
-这里需要注意的是如果使用`memory`模式，那么服务停止了数据也随之丢失
+这里需要注意的是如果使用`memory`模式，那么服务停止了数据也随之丢失，推荐使用`redis`模式
 
 如果想使用其他方式进行数据存储，只需根据[BaseDatabase](https://github.com/howie6879/hproxy/blob/master/hproxy/database/base_database.py)的编码规范进行扩展即可
 

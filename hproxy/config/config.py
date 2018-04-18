@@ -12,7 +12,7 @@ class Config():
 
     # Application config
     BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-    DB_TYPE = 'memory'
+    DB_TYPE = os.getenv('DB_TYPE', "redis")
     HOST = ['127.0.0.1:8001', '0.0.0.0:8001']
     TIMEZONE = 'Asia/Shanghai'
     USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36'

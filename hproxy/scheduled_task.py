@@ -22,6 +22,6 @@ def refresh_task(interval):
         time.sleep(1)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__' and CONFIG.DB_TYPE != 'memory':
     interval = CONFIG.SCHEDULED_DICT['ver_interval']
-    refresh_task(interval=interval)
+    refresh_task(interval=1)

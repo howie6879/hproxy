@@ -12,9 +12,14 @@ from sanic.response import redirect
 
 from hproxy.config import CONFIG
 from hproxy.database import DatabaseSetting
+from hproxy.spider import spider_console
 from hproxy.views import bp_api
 
 app = Sanic(__name__)
+
+# Fetch proxy if DB_TYPE = memory
+if CONFIG.DB_TYPE == 'memory':
+    app.add_task(spider_console())
 
 app.blueprint(bp_api)
 app.config.REQUEST_TIMEOUT = 600

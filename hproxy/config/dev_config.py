@@ -14,7 +14,7 @@ class DevConfig(Config):
 
     # Application config
     # memory or redis
-    DB_TYPE = 'redis'
+    DB_TYPE = os.getenv('DB_TYPE', "redis")
 
     # Database config
     REDIS_DICT = dict(
