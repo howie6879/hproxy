@@ -2,6 +2,7 @@
 """
  Created by howie.hu at 06/04/2018.
 """
+from hproxy.utils import singleton
 from hproxy.database.backends import MemoryDatabase
 
 
@@ -14,7 +15,7 @@ class Settings:
         }
     }
 
-
+@singleton
 class DatabaseSetting:
     """
     Database setting configuration
