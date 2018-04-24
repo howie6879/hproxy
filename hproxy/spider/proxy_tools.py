@@ -2,11 +2,11 @@
 """
  Created by howie.hu at 06/04/2018.
 """
-import os
-import random
-
+import aiofiles
 import aiohttp
 import async_timeout
+import os
+import random
 import requests
 
 from urllib.parse import urlparse
@@ -20,11 +20,11 @@ except:
     from json import loads as json_loads
 
 
-async def fetch(client, url, proxy, timeout):
-    with async_timeout.timeout(15):
+async def fetch(client, url, proxy, params, timeout=15):
+    with async_timeout.timeout(timeout):
         try:
-            headers = {'user-agent': get_random_user_agent()}
-            async with client.get(url, headers=headers, proxy=proxy, timeout=timeout) as response:
+            headers = {'user-agent': await get_random_user_agent()}
+            async with client.get(url, headers=headers, proxy=proxy, params=params, timeout=timeout) as response:
                 assert response.status == 200
                 logger.info(type='抓取成功', message='Task url: {}'.format(response.url))
                 try:
@@ -37,7 +37,7 @@ async def fetch(client, url, proxy, timeout):
             return None
 
 
-async def request_url_by_aiohttp(url, proxy=None, timeout=15):
+async def request_url_by_aiohttp(url, proxy=None, params={}, timeout=15):
     """
     Request a url by aiohttp
     :param url:
@@ -45,7 +45,7 @@ async def request_url_by_aiohttp(url, proxy=None, timeout=15):
     :return:
     """
     async with aiohttp.ClientSession() as client:
-        html = await fetch(client=client, url=url, proxy=proxy, timeout=timeout)
+        html = await fetch(client=client, url=url, proxy=proxy, params=params, timeout=timeout)
         return html if html else None
 
 
@@ -95,13 +95,13 @@ async def valid_proxies(ip, port):
         return False, None
 
 
-def get_random_user_agent():
+async def get_random_user_agent():
     """
     Get a random user agent string.
     :return: Random user agent string.
     """
     USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36'
-    return random.choice(_get_data('base_spider/user_agents.txt', USER_AGENT))
+    return random.choice(await _get_data('base_spider/user_agents.txt', USER_AGENT))
 
 
 def request_url_by_requests(url, proxies):
@@ -127,7 +127,7 @@ def request_url_by_requests(url, proxies):
     return res
 
 
-def _get_data(filename, default=''):
+async def _get_data(filename, default=''):
     """
     Get data from a file
     :param filename: filename
@@ -137,8 +137,8 @@ def _get_data(filename, default=''):
     root_folder = os.path.dirname(__file__)
     user_agents_file = os.path.join(root_folder, filename)
     try:
-        with open(user_agents_file) as fp:
-            data = [_.strip() for _ in fp.readlines()]
+        async with aiofiles.open(user_agents_file, mode='r') as f:
+            data = [_.strip() for _ in await f.readlines()]
     except:
         data = [default]
     return data
@@ -154,5 +154,7 @@ if __name__ == '__main__':
     }
 
     proxy = "http://{ip}:{port}".format(ip=ip, port=port)
+
+    print(asyncio.get_event_loop().run_until_complete(get_random_user_agent()))
 
     print(asyncio.get_event_loop().run_until_complete(get_proxy_info(ip, port, getInfo=True)))
