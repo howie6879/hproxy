@@ -19,9 +19,7 @@ class DevConfig(Config):
     # Database config
     REDIS_DICT = dict(
         REDIS_ENDPOINT=os.getenv('REDIS_ENDPOINT', "localhost"),
-        REDIS_PORT=os.getenv('REDIS_PORT', 6379),
-        REDIS_DB=os.getenv('REDIS_DB', 0),
+        REDIS_PORT=int(os.getenv('REDIS_PORT', 6379)),
+        REDIS_DB=int(os.getenv('REDIS_DB', 0)),
         REDIS_PASSWORD=os.getenv('REDIS_PASSWORD', None)
     )
-
-

@@ -20,7 +20,7 @@ class Config():
 
     # scheduled task
     SCHEDULED_DICT = {
-        'ver_interval': 10
+        'ver_interval': int(os.getenv('VER_INTERVAL', 10))
     }
 
     # URL config
