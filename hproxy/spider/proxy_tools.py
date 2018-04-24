@@ -101,7 +101,7 @@ def get_random_user_agent():
     :return: Random user agent string.
     """
     USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36'
-    return random.choice(_get_data('base/user_agents.txt', USER_AGENT))
+    return random.choice(_get_data('base_spider/user_agents.txt', USER_AGENT))
 
 
 def request_url_by_requests(url, proxies):

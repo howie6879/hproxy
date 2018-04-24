@@ -12,10 +12,12 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from hproxy.config import CONFIG
 from hproxy.scheduler import refresh_proxy
+from hproxy.spider.spider_console import crawl_proxy
 
 
-def refresh_task(interval):
-    schedule.every(interval).minutes.do(refresh_proxy)
+def refresh_task(ver_interval, spider_interval):
+    schedule.every(ver_interval).minutes.do(refresh_proxy)
+    schedule.every(spider_interval).minutes.do(crawl_proxy)
 
     while True:
         schedule.run_pending()
@@ -23,5 +25,6 @@ def refresh_task(interval):
 
 
 if __name__ == '__main__' and CONFIG.DB_TYPE != 'memory':
-    interval = CONFIG.SCHEDULED_DICT['ver_interval']
-    refresh_task(interval=1)
+    ver_interval = CONFIG.SCHEDULED_DICT['ver_interval']
+    spider_interval = CONFIG.SCHEDULED_DICT['spider_interval']
+    refresh_task(ver_interval=ver_interval, spider_interval=spider_interval)

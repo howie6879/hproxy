@@ -34,6 +34,8 @@ async def spider_console():
         await spider_module.start()
     logger.info(type="爬虫执行结束", message="用时：{0}".format(time.time() - start))
 
+def crawl_proxy():
+    asyncio.get_event_loop().run_until_complete(spider_console())
 
 if __name__ == '__main__':
-    asyncio.get_event_loop().run_until_complete(spider_console())
+    crawl_proxy()
