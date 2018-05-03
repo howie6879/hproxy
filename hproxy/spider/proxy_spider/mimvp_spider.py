@@ -19,7 +19,7 @@ class SSIPSpider(ProxySpider):
     """
     Fetch proxies from http://www.66ip.cn/areaindex_1/1.html
     """
-    spider_name = '66ip'
+    spider_name = 'mimvp'
     item = SSIPItem
 
     async def get_proxy(self):
@@ -29,7 +29,7 @@ class SSIPSpider(ProxySpider):
         """
         start = time.time()
         tasks = []
-        for url in ['http://www.66ip.cn/areaindex_{}/1.html'.format(i) for i in range(1, 35)]:
+        for url in ['https://proxy.mimvp.com/free.php?proxy=in_hp&sort=&page={}'.format(i) for i in range(1, 64)]:
 
             html = await request_url_by_aiohttp(url=url)
             if html:
@@ -65,7 +65,7 @@ class SSIPSpider(ProxySpider):
                 self.logger.info(type='Valid proxy', message="{0}: {1}:{2} had been saved".format(self.spider_name, ip, port))
                 return True
             except Exception as e:
-                self.logger.info(type='Invalid proxy', message="{0}: {1}:{2} had been saved".format(self.spider_name, ip, port))
+                self.logger.info(type='Invalid proxy', message="{0}: {1}:{2} had been abandoned".format(self.spider_name, ip, port))
                 return False
         return False
 

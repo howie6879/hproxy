@@ -36,9 +36,9 @@ class ProxySpider():
     async def start(cls):
         """Start a spider"""
         spider_instance = cls()
-        spider_instance.logger.info(type='开始运行爬虫', message=spider_instance.spider_name + " 正在爬取中...")
+        spider_instance.logger.info(type='Spidering start', message=spider_instance.spider_name + " Crawling...")
         start = datetime.now()
         # asyncio.get_event_loop().run_until_complete(spider_instance.get_proxy())
         await spider_instance.get_proxy()
-        spider_instance.logger.info(type='爬虫运行结束',
+        spider_instance.logger.info(type='Spidering finished',
                                     message='Time usage：{seconds}'.format(seconds=(datetime.now() - start)))

@@ -26,14 +26,14 @@ async def fetch(client, url, proxy, params, timeout=15):
             headers = {'user-agent': await get_random_user_agent()}
             async with client.get(url, headers=headers, proxy=proxy, params=params, timeout=timeout) as response:
                 assert response.status == 200
-                logger.info(type='抓取成功', message='Task url: {}'.format(response.url))
+                logger.info(type='Crawling successfully!', message='Task url: {}'.format(response.url))
                 try:
                     text = await response.text()
                 except:
                     text = await response.read()
                 return text
         except Exception as e:
-            logger.exception(type='请求失败', message=url)
+            logger.exception(type='Request failed!', message=url)
             return None
 
 
@@ -119,10 +119,10 @@ def request_url_by_requests(url, proxies):
                            proxies=proxies)
         res.raise_for_status()
     except requests.exceptions.ConnectTimeout as e:
-        logger.error(type='代理验证超时', message=proxies.get('http', ) + ' 请求 ' + url + ' 失败')
+        logger.error(type='Proxy authentication timeout!', message=proxies.get('http', ) + ' Request ' + url + ' failed')
         res = None
     except Exception as e:
-        logger.error(type='代理验证出错', message=proxies.get('http', ) + ' 请求 ' + url + ' 失败')
+        logger.error(type='Proxy authentication error!', message=proxies.get('http', ) + ' Request ' + url + ' failed')
         res = None
     return res
 

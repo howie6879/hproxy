@@ -32,7 +32,7 @@ async def spider_console():
         spider_module = import_module(
             "hproxy.spider.proxy_spider.{}".format(spider))
         await spider_module.start()
-    logger.info(type="爬虫执行结束", message="用时：{0}".format(time.time() - start))
+    logger.info(type="spidering finished...", message="Time costs: {0}".format(time.time() - start))
 
 def crawl_proxy():
     asyncio.get_event_loop().run_until_complete(spider_console())
