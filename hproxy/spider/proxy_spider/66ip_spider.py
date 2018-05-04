@@ -44,7 +44,7 @@ class SSIPSpider(ProxySpider):
         for task in done_list:
             if task.result():
                 good_nums += 1
-        self.logger.info(type="爬虫执行结束", message="爬虫：{0} 执行结束，获取代理{1}个 - 有效代理：{2}个，用时：{3}".format(
+        self.logger.info(type="Spidering finished...",message="Crawling {0} finished,total proxy num : {1}  - valid proxy num ：{2}，Time costs ：{3}".format(
             self.spider_name,
             len(tasks),
             good_nums,
@@ -62,10 +62,10 @@ class SSIPSpider(ProxySpider):
             # Save proxy
             try:
                 await db_client.insert(field="{0}:{1}".format(ip, port), value=info)
-                self.logger.info(type='有效代理', message="{0}: {1}:{2} 已存储".format(self.spider_name, ip, port))
+                self.logger.info(type='Valid proxy', message="{0}: {1}:{2} had been saved".format(self.spider_name, ip, port))
                 return True
             except Exception as e:
-                self.logger.info(type='无效代理', message="{0}: {1}:{2} 已丢弃".format(self.spider_name, ip, port))
+                self.logger.info(type='Invalid proxy', message="{0}: {1}:{2} had been saved".format(self.spider_name, ip, port))
                 return False
         return False
 

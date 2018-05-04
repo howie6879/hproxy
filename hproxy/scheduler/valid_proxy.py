@@ -25,7 +25,7 @@ async def valid_proxies():
         if task.result():
             good_nums += 1
 
-    logger.info(type="验证结束", message="验证程序执行结束，获取代理{0}个 - 有效代理：{1}个，用时：{2}".format(
+    logger.info(type="Authentication finished", message="Authenticating finished ，total proxy num : {0} - valid proxy num : {1} ,Time costs : {2}}".format(
         len(tasks),
         good_nums,
         time.time() - start))
@@ -34,17 +34,17 @@ async def valid_proxies():
 async def valid_proxy(proxy, nums=1):
     if nums > 5:
         await db_client.delete(proxy)
-        logger.error(type='无效代理', message="{0} 已丢弃".format(proxy))
+        logger.error(type='Invalid proxy', message="{0} had been abandoned".format(proxy))
         return False
     else:
         ip, port = proxy.split(':')
         isOk = await  get_proxy_info(ip, port)
         if not isOk:
-            logger.error(type='无效代理', message="{0}：第 {1} 次重试".format(proxy, nums))
+            logger.error(type='Invalid proxy', message="{0}：retry times =  {1}".format(proxy, nums))
             res = await valid_proxy(proxy, nums=nums + 1)
             return res
         else:
-            logger.info(type='有效代理', message="{0} 有效".format(proxy))
+            logger.info(type='Valid proxy', message="{0} is valid".format(proxy))
             return True
 
 
