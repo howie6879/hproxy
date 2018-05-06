@@ -149,6 +149,15 @@ vi hproxy.env
 ````shell
 # 加载 hproxy.env，并将 docker 的8001端口映射到主机的8001端口
 docker run --env-file ./hproxy.env -d -p 8001:8001 hproxy
+#第一次运行爬虫会自动抓取数据
+````
+
+查看抓取的数据
+````shell
+# 启动 redis 客户端
+redis-cli -a 密码
+# 连接成功 server 后，查看 hproxy 值，hproxy 为 hash 类型
+hgetall hproxy
 ````
 
 ## 安装 caddy
@@ -156,3 +165,21 @@ docker run --env-file ./hproxy.env -d -p 8001:8001 hproxy
 ````shell
 curl https://getcaddy.com | bash -s personal
 ````
+
+创建 caddyfile
+````shell
+vi caddyfile
+# 这里以 https://hproxy.htmlhelper.org 为例，内容如下
+hproxy.htmlhelper.org {
+    proxy / 127.0.0.1:8001
+    timeouts none
+    gzip
+}
+````
+
+运行 caddy
+````shell
+caddy -conf caddyfile
+````
+
+访问 https://hproxy.htmlhelper.org/api，便可获取代理的相关接口
