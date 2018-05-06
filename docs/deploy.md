@@ -52,26 +52,18 @@ cp redis.conf /etc/redis
 
 ### 修改 redis 配置参数
 ````shell
-emacs /etc/redis/redis.conf
-````
+vi /etc/redis/redis.conf
 
-使 redis 能在后台运行
-````shell
+# 使 redis 能在后台运行
 daemonize yes
-````
 
-修改pid目录为新建目录
-````shell
+# 修改pid目录为新建目录
 pidfile /var/redis/run/redis.pid
-````
 
-修改dump目录为新建目录
-````shell
+# 修改dump目录为新建目录
 dir /var/redis/data
-````
 
-修改log存储目录为新建目录
-````shell
+# 修改log存储目录为新建目录
 logfile /var/redis/log/redis.log
 ````
 
@@ -131,7 +123,7 @@ docker ps
 docker ps|grep 镜像名称|awk '{print $1}'|xargs docker kill
 ````
 
-## 创建 hproy 镜像
+## 创建 hproxy 镜像
 clone hproxy
 ````shell
 git clone git clone https://github.com/howie6879/hproxy.git
@@ -150,11 +142,17 @@ docker images
 设置 redis
 ````shell
 # 修改 hproxy 项目目录下的 hproxy.env 文件，根据自身环境，修改其中的 redis 设置
-emacs hproxy.env
+vi hproxy.env
 ````
 
 运行 hproxy
 ````shell
 # 加载 hproxy.env，并将 docker 的8001端口映射到主机的8001端口
 docker run --env-file ./hproxy.env -d -p 8001:8001 hproxy
+````
+
+## 安装 caddy
+下载安装 caddy
+````shell
+curl https://getcaddy.com | bash -s personal
 ````
