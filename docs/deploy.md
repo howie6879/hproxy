@@ -111,4 +111,50 @@ sudo usermod -aG docker $USER
 systemctl start docker
 ````
 
+查看 docker 信息
+````shell
+docker info
+````
 
+查看 docker 镜像
+````shell
+docker images
+````
+
+查看 docker 运行中的镜像
+````shell
+docker ps
+````
+
+终止 docker 运行中的镜像
+````shell
+docker ps|grep 镜像名称|awk '{print $1}'|xargs docker kill
+````
+
+## 创建 hproy 镜像
+clone hproxy
+````shell
+git clone git clone https://github.com/howie6879/hproxy.git
+````
+
+生成 hproxy 镜像
+````shell
+# 进入 hproxy 项目目录
+cd hproxy
+# 执行创建命令，注意最后的参数，指的是 Dockerfile 所在路径为当前目录
+docker image built -t hproxy .
+# 查看创建的镜像
+docker images
+````
+
+设置 redis
+````shell
+# 修改 hproxy 项目目录下的 hproxy.env 文件，根据自身环境，修改其中的 redis 设置
+emacs hproxy.env
+````
+
+运行 hproxy
+````shell
+# 加载 hproxy.env，并将 docker 的8001端口映射到主机的8001端口
+docker run --env-file ./hproxy.env -d -p 8001:8001 hproxy
+````
