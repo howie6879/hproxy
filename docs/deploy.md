@@ -1,6 +1,6 @@
-# docker 部署 hproxy 服务
+# Docker 部署 hproxy 服务
 
-## 安装 redis
+## 安装 Redis
 
 安装 gcc 和 make 编译工具
 ````shell
@@ -13,7 +13,7 @@ yum install -y gcc make wget
 apt install -y gcc make wget
 ````
 
-下载 redis 源码包
+下载 Redis 源码包
 ````shell
 wget http://download.redis.io/redis-stable.tar.gz
 ````
@@ -23,7 +23,7 @@ wget http://download.redis.io/redis-stable.tar.gz
 tar -xzvf redis-stable.tar.gz
 ````
 
-编译安装 redis
+编译安装 Redis
 ````shell
 cd redis-stable
 # 编译
@@ -34,7 +34,8 @@ make test
 make install
 ````
 
-## 配置 redis
+### 配置 Redis
+
 创建配置文件目录，数据库 dump file 目录，进程 pid 目录，日志 log 目录
 ````shell
 # 配置文件目录放在 /etc/ 下
@@ -50,7 +51,7 @@ mkdir data run log
 cp redis.conf /etc/redis
 ````
 
-### 修改 redis 配置参数
+### 修改 Redis 配置参数
 ````shell
 vi /etc/redis/redis.conf
 
@@ -84,7 +85,7 @@ ps -ax|grep redis|awk '{print $1}'|xargs kill -9
 ````
 至此，redis 的安装和基本配置就完成了
 
-## 安装 docker
+## 安装 Docker
 ````shell
 # 官方下载方式
 curl -sSL https://get.docker.com/ | sh
@@ -93,22 +94,22 @@ curl -sSL https://get.docker.com/ | sh
 curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh
 ````
 
-将用户加入 docker 用户组
+将用户加入 Docker 用户组
 ````shell
 sudo usermod -aG docker $USER
 ````
 
-启动 docker
+启动 Docker
 ````shell
 systemctl start docker
 ````
 
-查看 docker 信息
+查看 Docker 信息
 ````shell
 docker info
 ````
 
-查看 docker 镜像
+查看 Docker 镜像
 ````shell
 docker images
 ````
@@ -118,13 +119,13 @@ docker images
 docker ps
 ````
 
-终止 docker 运行中的镜像
+终止 Docker 运行中的镜像
 ````shell
 docker ps|grep 镜像名称|awk '{print $1}'|xargs docker kill
 ````
 
 ## 创建 hproxy 镜像
-clone hproxy
+首先下载项目代码
 ````shell
 git clone git clone https://github.com/howie6879/hproxy.git
 ````
@@ -139,7 +140,8 @@ docker image built -t hproxy .
 docker images
 ````
 
-设置 redis
+设置 Redis 相关参数，hproxy 项目的配置可由环境变量进行设置，构建Docker镜像的时候请先阅读[环境变量配置说明](./config.md)，然后将想要设置的值在`hproxy.env`进行更改即可，操作如下：
+
 ````shell
 # 定义自己的环境变量配置文件
 cp dev_hproxy.env hproxy.env
@@ -147,7 +149,22 @@ cp dev_hproxy.env hproxy.env
 vi hproxy.env
 ````
 
+hproxy.env 默认值如下：
+
+``` python
+# 需要设置就填写  不需要就删掉
+DB_TYPE=redis
+START_SPIDER=1
+VER_INTERVAL=10
+SPIDER_INTERVAL=60
+REDIS_ENDPOINT=localhost
+REDIS_PORT=6379
+REDIS_DB=0
+REDIS_PASSWORD=password
+```
+
 运行 hproxy
+
 ````shell
 # 加载 hproxy.env，并将 docker 的8001端口映射到主机的8001端口
 docker run --env-file ./hproxy.env -d -p 8001:8001 hproxy
@@ -162,15 +179,15 @@ redis-cli -a 密码
 hgetall hproxy
 ````
 
-## 安装 caddy
-下载安装 caddy
+## 安装 Caddy
+下载安装 Caddy
 ````shell
 curl https://getcaddy.com | bash -s personal
 ````
 
-创建 caddyfile
+创建 Caddyfile
 ````shell
-vi caddyfile
+vi Caddyfile
 # 这里以 https://hproxy.htmlhelper.org 为例，内容如下
 hproxy.htmlhelper.org {
     proxy / 127.0.0.1:8001
@@ -181,7 +198,7 @@ hproxy.htmlhelper.org {
 
 运行 caddy
 ````shell
-caddy -conf caddyfile
+caddy -conf Caddyfile
 ````
 
-访问 https://hproxy.htmlhelper.org/api，便可获取代理的相关接口
+访问 [https://hproxy.htmlhelper.org/api](https://hproxy.htmlhelper.org/api)，便可获取代理的相关接口

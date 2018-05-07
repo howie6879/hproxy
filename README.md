@@ -2,17 +2,9 @@
 
 [![Build Status](https://travis-ci.org/howie6879/hproxy.svg?branch=master)](https://travis-ci.org/howie6879/hproxy)
 
-本项目利用第三方IP代理提供站定时抓取有效IP，并免费提供网页源数据抓取方案，构建异步IP代理池
+本项目利用第三方IP代理提供站定时抓取有效IP，并免费提供网页源数据抓取方案，构建异步IP代理池：
 
-``` txt
-
-██╗  ██╗██████╗ ██████╗  ██████╗ ██╗  ██╗██╗   ██╗
-██║  ██║██╔══██╗██╔══██╗██╔═══██╗╚██╗██╔╝╚██╗ ██╔╝
-███████║██████╔╝██████╔╝██║   ██║ ╚███╔╝  ╚████╔╝
-██╔══██║██╔═══╝ ██╔══██╗██║   ██║ ██╔██╗   ╚██╔╝
-██║  ██║██║     ██║  ██║╚██████╔╝██╔╝ ██╗   ██║
-╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝
-```
+- Demo: https://hproxy.htmlhelper.org/api
 
 ### 安装
 
@@ -175,6 +167,10 @@ python valid_proxy.py
 问：如何扩展代理爬虫？
 
 答：同样，在[spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider)目录下找到爬虫编写规范，或者直接看某一个代理爬虫脚本的编写模式
+
+### Deploy
+
+部署文档见[这里](./docs/deploy.md)
 
 ### License
 
