@@ -2,11 +2,14 @@
 
 [![Build Status](https://travis-ci.org/howie6879/hproxy.svg?branch=master)](https://travis-ci.org/howie6879/hproxy)
 
+### 概述
+
 本项目利用第三方IP代理提供站定时抓取有效IP，并免费提供网页源数据抓取方案，构建异步IP代理池：
 
 - Demo: https://hproxy.htmlhelper.org/api
+- Deploy: 部署文档见[这里](./docs/deploy.md)
 
-### 安装
+### 开始
 
 本项目基于Python3.6+，利用Sanic构建异步HTTP服务，利用`aiohttp`进行代理数据异步抓取
 
@@ -23,6 +26,7 @@ cd hproxy
 python server.py
 
 # 启动爬虫 运行 /hproxy/hproxy/spider/spider_console.py
+# 访问：127.0.0.1/api/
 ```
 
 hproxy默认使用Redis进行数据存储服务，所以使用的前提是安装好Redis，具体配置在`config`下：
@@ -44,21 +48,20 @@ DB_TYPE = 'redis'
 
 如果想使用其他方式进行数据存储，只需根据[BaseDatabase](https://github.com/howie6879/hproxy/blob/master/hproxy/database/base_database.py)的编码规范进行扩展即可
 
-### 特性 
+### 特性
 
 - [x] 多种方式进行数据存储，易扩展：
-    - [DatabaseSetting](https://github.com/howie6879/hproxy/blob/master/hproxy/database/db_setting.py)
-    - [Memory](https://github.com/howie6879/hproxy/blob/master/hproxy/database/backends/memory_database.py)
-    - [Redis](https://github.com/howie6879/hproxy/blob/master/hproxy/database/backends/redis_database.py)
+  - [DatabaseSetting](https://github.com/howie6879/hproxy/blob/master/hproxy/database/db_setting.py)
+  - [Memory](https://github.com/howie6879/hproxy/blob/master/hproxy/database/backends/memory_database.py)
+  - [Redis](https://github.com/howie6879/hproxy/blob/master/hproxy/database/backends/redis_database.py)
 - [x] 自定义爬虫基础部件，上手简单，统一代码风格：
-    - [Field](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/field.py)
-    - [Item](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/item.py)
+  - [Field](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/field.py)
+  - [Item](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/item.py)
 - [x] 提供API获取代理，启动后访问 `127.0.0.1:8001/api`
-    - 'delete/:proxy': 删除代理
-    - 'get': 随机选择一个代理
-    - 'list':列出全部代理
-    - ...
-
+  - 'delete/:proxy': 删除代理
+  - 'get': 随机选择一个代理
+  - 'list':列出全部代理
+  - ...
 
 - [x] 从代理池随机选取一个代理提供html源码抓取服务
 - [x] 定时抓取、更新、自动验证
@@ -167,10 +170,6 @@ python valid_proxy.py
 问：如何扩展代理爬虫？
 
 答：同样，在[spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider)目录下找到爬虫编写规范，或者直接看某一个代理爬虫脚本的编写模式
-
-### Deploy
-
-部署文档见[这里](./docs/deploy.md)
 
 ### License
 
