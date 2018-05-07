@@ -1,7 +1,8 @@
-#!/usr/bin/env python
-"""
- Created by howie.hu at 06/04/2018.
-"""
+# hproxy 服务配置说明
+
+为了方便更改hproxy项目的配置，使用者可根据系统环境变量来对项目一些参数配置进行更改，目前hproxy的基本配置如下：
+
+``` python
 import os
 
 
@@ -31,3 +32,16 @@ class Config():
         'https': 'https://httpbin.org/get?show_env=1',
         'timeout': 5
     }
+```
+
+配置参数说明：
+
+| 参数            | 说明                                     |
+| --------------- | ---------------------------------------- |
+| DB_TYPE         | redis或者memory两种类型，建议redis       |
+| START_SPIDER    | 1或0，是否在项目启动时候马上爬取代理网站 |
+| TIMEZONE        | 地域                                     |
+| USER_AGENT      | 默认UA                                   |
+| VAL_HOST        | 0或1，是否验证请求host，默认不验证       |
+| VER_INTERVAL    | 定时验证代理数据时间                     |
+| SPIDER_INTERVAL | 定时爬取代理数据时间                     |

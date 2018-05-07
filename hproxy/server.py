@@ -17,8 +17,7 @@ from hproxy.views import bp_api
 
 app = Sanic(__name__)
 
-# Fetch proxy if DB_TYPE = memory
-if CONFIG.DB_TYPE == 'memory':
+if CONFIG.START_SPIDER == '1':
     app.add_task(spider_console())
 
 app.blueprint(bp_api)
@@ -33,9 +32,10 @@ async def setup_db(app, loop):
 
 @app.middleware('request')
 async def check_request(request):
-    host = request.headers.get('host', None)
-    if not host or host not in CONFIG.HOST:
-        return redirect('http://www.baidu.com')
+    if CONFIG.VAL_HOST == '1':
+        host = request.headers.get('host', None)
+        if not host or host not in CONFIG.HOST:
+            return redirect('http://www.baidu.com')
 
 
 if __name__ == "__main__":
