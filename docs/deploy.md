@@ -141,6 +141,8 @@ docker images
 
 设置 redis
 ````shell
+# 定义自己的环境变量配置文件
+cp dev_hproxy.env hproxy.env
 # 修改 hproxy 项目目录下的 hproxy.env 文件，根据自身环境，修改其中的 redis 设置
 vi hproxy.env
 ````
