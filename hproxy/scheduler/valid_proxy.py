@@ -3,7 +3,10 @@
  Created by howie.hu at 08/04/2018.
 """
 import asyncio
+import sys
 import time
+
+sys.path.append('../../')
 
 from hproxy.database import DatabaseSetting
 from hproxy.utils import logger
