@@ -88,11 +88,10 @@ python xicidaili_spider.py
 
 #### 代理验证
 
-获取的代理验证脚本在[valid_proxy](https://github.com/howie6879/hproxy/blob/master/hproxy/scheduler/valid_proxy.py)，目前设定每60分钟验证一次所有代理，每个代理失败五次之后就丢弃，一般在后台运行，手动执行如下：
+获取的代理验证脚本在[valid_proxy](https://github.com/howie6879/hproxy/blob/master/hproxy/scheduler/valid_proxy.py)，目前设定每10分钟验证一次所有代理，每个代理失败五次之后就丢弃，一般在后台运行，手动执行如下：
 
 ``` shell
 cd hproxy/hproxy/scheduler/
-# 记得修改成直接执行
 python valid_proxy.py
 ```
 
