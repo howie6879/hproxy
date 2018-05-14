@@ -1,21 +1,13 @@
-## hproxy - Asynchronous IP proxy pool
+## Hproxy - Asynchronous IP proxy pool
 
-[![Build Status](https://travis-ci.org/howie6879/hproxy.svg?branch=master)](https://travis-ci.org/howie6879/hproxy)
+[![Build Status](https://travis-ci.org/howie6879/hproxy.svg?branch=master)](https://travis-ci.org/howie6879/hproxy) [![Python](https://img.shields.io/badge/python-3.6%2B-orange.svg)](https://github.com/howie6879/hproxy) [![license](https://img.shields.io/github/license/howie6879/hproxy.svg)](https://github.com/howie6879/hproxy) 
 
-The hproxy uses the third party IP proxy providers to crawl valid IP at regular time,
-and provides webpage source data crawling scheme for free to build an asynchronous IP proxy pool.
+Hproxy aims to make getting proxy as convenient as possible.
 
-``` txt
+- Demo: https://hproxy.htmlhelper.org/api
+- Introduction：[中文](.ZH_README.md) | [English](./README.md)
 
-██╗  ██╗██████╗ ██████╗  ██████╗ ██╗  ██╗██╗   ██╗
-██║  ██║██╔══██╗██╔══██╗██╔═══██╗╚██╗██╔╝╚██╗ ██╔╝
-███████║██████╔╝██████╔╝██║   ██║ ╚███╔╝  ╚████╔╝
-██╔══██║██╔═══╝ ██╔══██╗██║   ██║ ██╔██╗   ╚██╔╝
-██║  ██║██║     ██║  ██║╚██████╔╝██╔╝ ██╗   ██║
-╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝
-```
-
-### Installation
+### Overview
 
 The hproxy requires Python3.6+,and it use `Sanic` to build asynchronous HTTP service and `aiohttp` to crawl proxy data asynchronously.
 
