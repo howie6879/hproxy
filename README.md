@@ -5,7 +5,7 @@
 Hproxy aims to make getting proxy as convenient as possible.
 
 - Demo: https://hproxy.htmlhelper.org/api
-- Introduction：[中文](.ZH_README.md) | [English](./README.md)
+- Introduction：[中文](./ZH_README.md) | [English](./README.md)
 
 ### Overview
 
