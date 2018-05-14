@@ -37,7 +37,7 @@ async def api_delete(request, proxy):
     except Exception as e:
         result = {
             'status': -1,
-            'msg': '删除出错',
+            'msg': 'Deleting error!',
         }
     return json(result)
 
@@ -57,13 +57,13 @@ async def api_get(request):
         else:
             result = {
                 'status': -1,
-                'msg': '查询失败，请重试',
+                'msg': 'Searching error,please try again!',
             }
     except Exception as e:
         logger.exception(type='/get', message=str(e))
         result = {
             'status': -1,
-            'msg': '查询出错',
+            'msg': 'Searching error!',
         }
     return json(result)
 
@@ -95,13 +95,13 @@ async def api_html(request):
                         'proxy': proxy,
                         'details': proxy
                     },
-                    'msg': '抓取失败'
+                    'msg': 'Crawling failed!'
                 })
 
         except:
             return json({
                 'status': -1,
-                'msg': '抓取失败'
+                'msg': 'Crawling failed!'
             })
     else:
         return json({
@@ -123,7 +123,7 @@ async def api_list(request):
     except Exception as e:
         result = {
             'status': -1,
-            'msg': '查询出错',
+            'msg': 'Searching error!',
         }
     return json(result)
 
@@ -146,12 +146,12 @@ async def api_valid(request, proxy):
             await db_client.delete(proxy)
             result = {
                 'status': 0,
-                'msg': '代理失效'
+                'msg': 'Invalid proxy!'
             }
     except Exception as e:
         result = {
             'status': -1,
-            'msg': '删除出错',
+            'msg': 'Deleting error!',
         }
     return json(result)
 

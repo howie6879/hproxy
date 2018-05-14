@@ -34,3 +34,19 @@ class XCDLItem(Item):
                 return res
             except:
                 pass
+
+
+class MimvpItem(Item):
+    """Item for http://www.66ip.cn/index.html"""
+    target_item = TextField(css_select='#footer table tr')
+    values = TextField(css_select='tr>td')
+
+    def tal_values(self, values):
+        if values and isinstance(values, list):
+            try:
+                if str(values[1].text).isdigit():
+                    res = (values[0].text, values[1].text)
+                    return res
+            except:
+                pass
+        return None
