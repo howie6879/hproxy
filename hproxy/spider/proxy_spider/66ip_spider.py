@@ -39,16 +39,19 @@ class SSIPSpider(ProxySpider):
                     if item_data.values:
                         tasks.append(asyncio.ensure_future(self.save_proxy(item_data.values)))
 
-        done_list, pending_list = await asyncio.wait(tasks)
         good_nums = 0
-        for task in done_list:
-            if task.result():
-                good_nums += 1
-        self.logger.info(type="Spidering finished...",message="Crawling {0} finished,total proxy num : {1}  - valid proxy num ：{2}，Time costs ：{3}".format(
-            self.spider_name,
-            len(tasks),
-            good_nums,
-            time.time() - start))
+        if tasks:
+            done_list, pending_list = await asyncio.wait(tasks)
+            for task in done_list:
+                if task.result():
+                    good_nums += 1
+
+        self.logger.info(type="Spider finished!",
+                         message="Crawling {0} finished,total proxy num : {1}  - valid proxy num ：{2}，Time costs ：{3}".format(
+                             self.spider_name,
+                             len(tasks),
+                             good_nums,
+                             time.time() - start))
 
     async def save_proxy(self, ip_info):
         """
@@ -62,10 +65,12 @@ class SSIPSpider(ProxySpider):
             # Save proxy
             try:
                 await db_client.insert(field="{0}:{1}".format(ip, port), value=info)
-                self.logger.info(type='Valid proxy', message="{0}: {1}:{2} had been saved".format(self.spider_name, ip, port))
+                self.logger.info(type='Valid proxy',
+                                 message="{0}: {1}:{2} had been saved".format(self.spider_name, ip, port))
                 return True
             except Exception as e:
-                self.logger.info(type='Invalid proxy', message="{0}: {1}:{2} had been saved".format(self.spider_name, ip, port))
+                self.logger.info(type='Invalid proxy',
+                                 message="{0}: {1}:{2} had been saved".format(self.spider_name, ip, port))
                 return False
         return False
 

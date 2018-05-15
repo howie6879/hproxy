@@ -28,14 +28,19 @@ def file_name(file_dir=os.path.join(CONFIG.BASE_DIR, 'spider/proxy_spider')):
 async def spider_console():
     start = time.time()
     all_files = file_name()
+    tasks = []
     for spider in all_files:
         spider_module = import_module(
             "hproxy.spider.proxy_spider.{}".format(spider))
-        await spider_module.start()
-    logger.info(type="Spidering finished...", message="Time costs: {0}".format(time.time() - start))
+        tasks.append(asyncio.ensure_future(spider_module.start()))
+
+    await asyncio.wait(tasks)
+    logger.info(type="Spider finished", message="Time costs: {0}".format(time.time() - start))
+
 
 def crawl_proxy():
     asyncio.get_event_loop().run_until_complete(spider_console())
+
 
 if __name__ == '__main__':
     crawl_proxy()
