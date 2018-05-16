@@ -25,6 +25,7 @@ def refresh_task(ver_interval, spider_interval):
 
 
 if __name__ == '__main__' and CONFIG.DB_TYPE != 'memory':
+    crawl_proxy()
     ver_interval = CONFIG.SCHEDULED_DICT['ver_interval']
     spider_interval = CONFIG.SCHEDULED_DICT['spider_interval']
     refresh_task(ver_interval=ver_interval, spider_interval=spider_interval)

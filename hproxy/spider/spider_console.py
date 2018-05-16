@@ -4,7 +4,10 @@
 """
 import asyncio
 import os
+import sys
 import time
+
+sys.path.append('../../')
 
 from importlib import import_module
 

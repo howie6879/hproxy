@@ -17,7 +17,7 @@ from hproxy.views import bp_api
 
 app = Sanic(__name__)
 
-if CONFIG.START_SPIDER == '1':
+if CONFIG.DB_TYPE == 'memory':
     app.add_task(spider_console())
 
 app.blueprint(bp_api)

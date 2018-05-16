@@ -28,7 +28,7 @@ async def valid_proxies():
         if task.result():
             good_nums += 1
 
-    logger.info(type="Authentication finished", message="Authenticating finished ，total proxy num : {0} - valid proxy num : {1} ,Time costs : {2}}".format(
+    logger.info(type="Authentication finished", message="Authenticating finished ，total proxy num : {0} - valid proxy num : {1} ,Time costs : {2}".format(
         len(tasks),
         good_nums,
         time.time() - start))

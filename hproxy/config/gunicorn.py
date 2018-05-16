@@ -3,7 +3,7 @@
 bind = '0.0.0.0:8001'
 backlog = 2048
 
-workers = 2
+workers = 4
 worker_connections = 1000
 timeout = 30
 keepalive = 2
