@@ -50,8 +50,8 @@ class XCDLSpider(ProxySpider):
                                  good_nums,
                                  time.time() - start))
         else:
-            self.logger.info(type="Spider failed",
-                             message="Crawling {0} finished，Time costs ：{1}".format(self.spider_name,
+            self.logger.info(type="Spider failed!",
+                             message="Crawling {0} failed，Time costs ：{1}".format(self.spider_name,
                                                                                     time.time() - start))
 
     async def save_proxy(self, ip_info):

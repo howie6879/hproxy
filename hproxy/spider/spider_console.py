@@ -38,7 +38,7 @@ async def spider_console():
         tasks.append(asyncio.ensure_future(spider_module.start()))
 
     await asyncio.wait(tasks)
-    logger.info(type="Spider finished", message="Time costs: {0}".format(time.time() - start))
+    logger.info(type="Spider finished!", message="Time costs: {0}".format(time.time() - start))
 
 
 def crawl_proxy():
