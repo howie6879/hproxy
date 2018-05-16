@@ -135,7 +135,7 @@ git clone git clone https://github.com/howie6879/hproxy.git
 # 进入 hproxy 项目目录
 cd hproxy
 # 执行创建命令，注意最后的参数，指的是 Dockerfile 所在路径为当前目录
-docker image built -t hproxy .
+docker image build -t hproxy .
 # 查看创建的镜像
 docker images
 ````
