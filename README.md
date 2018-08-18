@@ -7,7 +7,7 @@
 本项目利用第三方IP代理提供站定时抓取有效IP，并免费提供网页源数据抓取方案，构建异步IP代理池，让你尽可能简单地获取有效代理：
 
 - Demo: https://hproxy.htmlhelper.org/api
-- Document：[中文](.README.md) | [English](./README_EN.md)
+- Document：[中文](README.md) | [English](./README_EN.md)
 - Deploy: 部署文档见[这里](./docs/deploy.md)
 
 ### 开始
