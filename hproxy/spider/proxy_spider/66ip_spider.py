@@ -60,8 +60,8 @@ class SSIPSpider(ProxySpider):
         :return:
         """
         ip, port = ip_info
-        isOk, info = await get_proxy_info(ip, port, getInfo=True)
-        if isOk:
+        is_ok, info = await get_proxy_info(ip, port, get_info=True)
+        if is_ok:
             # Save proxy
             try:
                 await db_client.insert(field="{0}:{1}".format(ip, port), value=info)

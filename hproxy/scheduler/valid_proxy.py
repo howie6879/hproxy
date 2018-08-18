@@ -41,8 +41,8 @@ async def valid_proxy(proxy, nums=1):
         return False
     else:
         ip, port = proxy.split(':')
-        isOk = await  get_proxy_info(ip, port)
-        if not isOk:
+        is_ok = await  get_proxy_info(ip, port)
+        if not is_ok:
             logger.error(type='Invalid proxy', message="{0}：retry times =  {1}".format(proxy, nums))
             res = await valid_proxy(proxy, nums=nums + 1)
             return res

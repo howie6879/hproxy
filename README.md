@@ -1,36 +1,37 @@
-## Hproxy - Asynchronous IP proxy pool
+## Hproxy - 异步IP代理池
 
 [![Build Status](https://travis-ci.org/howie6879/hproxy.svg?branch=master)](https://travis-ci.org/howie6879/hproxy) [![Python](https://img.shields.io/badge/python-3.6%2B-orange.svg)](https://github.com/howie6879/hproxy) [![license](https://img.shields.io/github/license/howie6879/hproxy.svg)](https://github.com/howie6879/hproxy) 
 
-Hproxy aims to make getting proxy as convenient as possible.
+### 概述
+
+本项目利用第三方IP代理提供站定时抓取有效IP，并免费提供网页源数据抓取方案，构建异步IP代理池，让你尽可能简单地获取有效代理：
 
 - Demo: https://hproxy.htmlhelper.org/api
-- Introduction：[中文](./ZH_README.md) | [English](./README.md)
+- Document：[中文](.README.md) | [English](./README_EN.md)
+- Deploy: 部署文档见[这里](./docs/deploy.md)
 
-### Overview
+### 开始
 
-The hproxy requires Python3.6+,and it use `Sanic` to build asynchronous HTTP service and `aiohttp` to crawl proxy data asynchronously.
+本项目基于Python3.6+，利用Sanic构建异步HTTP服务，利用`aiohttp`进行代理数据异步抓取
+
+#### 单机运行
 
 ``` shell
 git clone https://github.com/howie6879/hproxy.git
 cd hproxy
 pip install pipenv
 
-# It should be noted that Python3.6 is required if you were in a virtual environment.
-# Install Dependencies
+# 这里需要注意，虚拟环境请使用Python3.6+，安装依赖库
 pipenv install
 
-# Start Crawler
 cd hproxy
 python server.py
 
-# Start Crawling
-python /hproxy/hproxy/spider/spider_console.py
-
+# 启动爬虫 运行 /hproxy/hproxy/spider/spider_console.py
+# 访问：127.0.0.1/api/
 ```
 
-The precondition to use hproxy is that Redis must has been installed because hproxy user Redis as default data storage mode,
-and the specific configuration is in the `config` directory.
+hproxy默认使用Redis进行数据存储服务，所以使用的前提是安装好Redis，具体配置在`config`下：
 
 ``` python
 # Database config
@@ -43,81 +44,73 @@ REDIS_DICT = dict(
 DB_TYPE = 'redis'
 ```
 
-If you want to use `Memory` in machine,you just need to change the value of `DB_TYPE` from `redis`
-to `memory` in `config` as following.
+如果想使用机器本身的`Memory`，直接在`config`里将`DB_TYPE = 'redis'`更改为`DB_TYPE = 'memory'`
 
-It should be noted that the data saved in `Memory` will be lost when the service terminated if you use the `memory` mode,
-so the `redis` mode is more recommended to keep the data.
+这里需要注意的是如果使用`memory`模式，那么服务停止了数据也随之丢失，推荐使用`redis`模式
 
-If you want to use other mode,you just need to expand it referring to the coding standards in [BaseDatabase](https://github.com/howie6879/hproxy/blob/master/hproxy/database/base_database.py)
+如果想使用其他方式进行数据存储，只需根据[BaseDatabase](https://github.com/howie6879/hproxy/blob/master/hproxy/database/base_database.py)的编码规范进行扩展即可
 
-### Features
+### 特性
 
-- [x] Multiple Data Storage Mode, Easy to expand:
-    - [DatabaseSetting](https://github.com/howie6879/hproxy/blob/master/hproxy/database/db_setting.py)
-    - [Memory](https://github.com/howie6879/hproxy/blob/master/hproxy/database/backends/memory_database.py)
-    - [Redis](https://github.com/howie6879/hproxy/blob/master/hproxy/database/backends/redis_database.py)
+- [x] 多种方式进行数据存储，易扩展：
+  - [DatabaseSetting](https://github.com/howie6879/hproxy/blob/master/hproxy/database/db_setting.py)
+  - [Memory](https://github.com/howie6879/hproxy/blob/master/hproxy/database/backends/memory_database.py)
+  - [Redis](https://github.com/howie6879/hproxy/blob/master/hproxy/database/backends/redis_database.py)
+- [x] 自定义爬虫基础部件，上手简单，统一代码风格：
+  - [Field](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/field.py)
+  - [Item](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/item.py)
+- [x] 提供API获取代理，启动后访问 `127.0.0.1:8001/api`
+  - 'delete/:proxy': 删除代理
+  - 'get': 随机选择一个代理
+  - 'list':列出全部代理
+  - ...
 
+- [x] 从代理池随机选取一个代理提供html源码抓取服务
+- [x] 定时抓取、更新、自动验证
+- [ ] 获取代理具体信息：如代理类型、协议、位置
 
-- [x] Customize Crawling Components,Easy To Expand，Unity Code Style:
-    - [Field](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/field.py)
-    - [Item](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/item.py)
+### 功能描述
 
-- [x] Provide API To Get Proxy,Visit `127.0.0.1:8001/api`
-    - 'delete/:proxy': delete proxy
-    - 'get': get a proxy randomly
-    - 'list': list all proxies
-    - ...
+#### 代理获取
 
-- [x] Provide crawling HTML source code service by a random proxy  from the proxy pool
-- [x] Crawling,updating,and auto verifying at a regular time
-- [ ] Get accurate information of the proxy,such as type of the proxy,protocol,position and so on
+本项目的爬虫代码全部集中于目录[spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider)，在[/spider/proxy_spider/](https://github.com/howie6879/hproxy/tree/master/hproxy/spider/proxy_spider)目录下定义了一系列代理网站的爬虫，所有爬虫基于[/spider/base/proxy_spider.py](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base/proxy_spider.py)里定义的规范编写，参考这些，就可以很方便的扩展一系列代理爬虫
 
-### Description of The Function
+运行[spider_console.py](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/spider_console.py)文件，即可启动全部爬虫进行代理的获取，无需定义新加的爬虫脚本，只需按照规范命名，即可自动获取爬虫模块然后运行
 
-#### Obtaining proxy
-
-The spider script are all in the [spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider) directory.You can easily expand the [spider/proxy_spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider/proxy_spider) which includes many spider towards different agency websites referring to the coding standard in [/spider/base_spider/proxy_spider.py](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/base_spider/proxy_spider.py)
-
-Execute [spider_console.py](https://github.com/howie6879/hproxy/blob/master/hproxy/spider/spider_console.py) to start all the spider scripts.If you want to expand,you just need to add function named in standard but not new script. 
-
-Run the following command to run the specific script like `xicidaili`.
+若想运行单个代理爬虫脚本，直接运行即可，比如`xicidaili`，直接执行：
 
 ``` shell
 cd hproxy/hproxy/spider/proxy_spider/
 python xicidaili_spider.py
 
-# The process of verifying 100 proxies Asynchronously would finish in 5 seconds,because the proxy timeout is 5 seconds. 
-# But in Synchronous way,it's unpredictable.
-# 2018/04/14 13:42:32 [Crawling finished  ] OK. Crawling xicidaili finished,get 100 proxies - Invalid proxy num:8,cost 5.384464740753174 seconds
+# 验证100个代理，异步执行能保证5秒左右执行完毕，因为超时代理超时就是5s
+# 同步执行最坏情况就...
+# 2018/04/14 13:42:32 [爬虫执行结束  ] OK 爬虫：xicidaili 执行结束，获取代理100个 - 有效代理：28个，用时：5.384464740753174 
 ```
 
-#### Proxy Verification
+#### 代理验证
 
-You can run the [valid_proxy.py](https://github.com/howie6879/hproxy/master/hproxy/scheduler/valid_proxy.py) to verify whether the proxies are available automatically or manually. 
-In an automatic way, hproxy will verify all the proxies per hour,and those which is verified failed over 5 times will be abandoned.
-In an manual way, you can run the following commands.
-
+获取的代理验证脚本在[valid_proxy](https://github.com/howie6879/hproxy/blob/master/hproxy/scheduler/valid_proxy.py)，目前设定每10分钟验证一次所有代理，每个代理失败五次之后就丢弃，一般在后台运行，手动执行如下：
 
 ``` shell
 cd hproxy/hproxy/scheduler/
 python valid_proxy.py
 ```
 
-#### Interface
+#### 代理接口
 
-| Route                                 | Description                                                         |
-| :------------------------------------ | :----------------------------------------------------------- |
-| delete/:proxy                         | Delete a proxy                                               |
-| get                                   | Return a random proxy @param valid=1,continuously verify the return proxy until it's valid|
-| list                                  | List all proxies without verification                               |
-| valid/:proxy                          | Verify a proxy                                              |
-| html?url=''&ajax=0&foreign=0          | Select a random proxy and request                                    |
+| 接口                         | 描述                                                         |
+| :--------------------------- | :----------------------------------------------------------- |
+| delete/:proxy                | 删除一个代理                                                 |
+| get                          | 参数valid=1，会在返回代理过程中验证一次，确保其有效，否则一直寻找，直到返回 |
+| list                         | 列出所有代理，没有一个个验证                                 |
+| valid/:proxy                 | 验证一个代理                                                 |
+| html?url=''&ajax=0&foreign=0 | 随机选取代理请求url并返回                                    |
 
 ``` json
-// URL:http://127.0.0.1:8001/api/get?valid=1
-// Description:Return successfully! If the value of the param 'valid' which is set to 1 as default is equal to 1,it will also return the value of param 'speed'.
-// types 1:Elite 2:Anonymous  3:Transparent
+// http://127.0.0.1:8001/api/get?valid=1
+// 返回成功，开启验证参数valid=1的话speed会有值，并且默认是开启的
+// types 1:高匿 2:匿名 3:透明
 {
     "status": 1,
     "info": {
@@ -127,8 +120,7 @@ python valid_proxy.py
     "msg": "success",
     "speed": 2.4909408092
 }
-// URL:http://127.0.0.1:8001/api/list
-//List all proxies without verification   
+// http://127.0.0.1:8001/api/list 列出所有代理，没有一个个验证
 {
     "status": 1,
     "info": {
@@ -143,23 +135,23 @@ python valid_proxy.py
     },
     "msg": "success"
 }
-// URL:http://127.0.0.1:8001/api/delete/171.39.45.6:8123
+// http://127.0.0.1:8001/api/delete/171.39.45.6:8123
 {
     "status": 1,
     "msg": "success"
 }
-// URL:http://127.0.0.1:8001/api/valid/183.159.91.75:18118
+// http://127.0.0.1:8001/api/valid/183.159.91.75:18118
 {
     "status": 1,
     "msg": "success",
     "speed": 0.3361008167
 }
-// URL:http://127.0.0.1:8001/api/html?url=https://www.v2ex.com
-// Crawing v2ex and get a random proxy.
+// http://127.0.0.1:8001/api/html?url=https://www.v2ex.com
+// 随机选取代理抓取v2ex
 {
     "status": 1,
     "info": {
-        "html": "html source code",
+        "html": "html 源码",
         "proxy": "120.77.254.116:3128"
     },
     "msg": "success"
@@ -168,27 +160,27 @@ python valid_proxy.py
 
 ### FAQ
 
-Q1:Why it only crawls ip and port?
+问：为什么只抓取ip以及端口？
 
-A1:Because the information of the proxy is not completely accurate,it need further verifying.The hproxy will verify whether the proxy is valid and its other information before returning the proxy.
+答：因为网站上代理的信息不一定准确，所以需要进一步验证，本项目会在返回代理的时候做进行验证，验证是否可用以及验证代理具体信息
 
-Q2:How to expand data storage mode?
+问：如何扩展数据存储方式？
 
-A2:Refer to [BaseDatabase](https://github.com/howie6879/hproxy/blob/master/hproxy/database/base_database.py) which defines some necessary functions required in subclass
+答：[BaseDatabase](https://github.com/howie6879/hproxy/blob/master/hproxy/database/base_database.py)里面定义了一些子类必须要有的方法，按照这个格式写就不会有问题
 
-Q3:How to expand proxy spider?
+问：如何扩展代理爬虫？
 
-A3:Same as above,refer to the spider coding standard in the [spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider) directory or code in a specific spider script directly. 
+答：同样，在[spider](https://github.com/howie6879/hproxy/tree/master/hproxy/spider)目录下找到爬虫编写规范，或者直接看某一个代理爬虫脚本的编写模式
 
 ### License
 
 hproxy is offered under the MIT license.
 
-### Reference
+### 参考
 
-Thanks for the following items:
+感谢以下项目：
 
 - [IPProxyPool](https://github.com/qiyeboy/IPProxyPool)
 - [proxy_pool](https://github.com/jhao104/proxy_pool)
 
-Thanks for the following agency website.If you have high-quality agency website,please click here [#3](https://github.com/howie6879/hproxy/issues/3) to submit ^_^.
+感谢以下代理网站，有优质代理网站请提交^_^，点这里 [#3](https://github.com/howie6879/hproxy/issues/3)

@@ -133,8 +133,8 @@ async def api_valid(request, proxy):
     try:
         ip, port = str(proxy).split(':')
         start = time.time()
-        isOk = await get_proxy_info(ip, port)
-        if isOk:
+        is_ok = await get_proxy_info(ip, port)
+        if is_ok:
             speed = time.time() - start
             result = {
                 'status': 1,
@@ -168,8 +168,8 @@ async def get_random_proxy(request, valid=1):
             if valid == 0:
                 return 0, res_dict
             else:
-                isOk = await get_proxy_info(ip, port)
-                if isOk:
+                is_ok = await get_proxy_info(ip, port)
+                if is_ok:
                     speed = time.time() - start
                     return speed, res_dict
                 else:

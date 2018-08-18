@@ -49,16 +49,16 @@ async def request_url_by_aiohttp(url, proxy=None, params={}, timeout=15):
         return html if html else None
 
 
-async def get_proxy_info(ip, port, getInfo=False):
+async def get_proxy_info(ip, port, get_info=False):
     proxies = {
         "http": "http://{ip}:{port}".format(ip=ip, port=port),
         "https": "http://{ip}:{port}".format(ip=ip, port=port)
     }
-    isOk, info = await valid_proxies(ip, port)
-    if getInfo:
-        return isOk, info
+    is_ok, info = await valid_proxies(ip, port)
+    if get_info:
+        return is_ok, info
     else:
-        return isOk
+        return is_ok
 
 
 async def valid_proxies(ip, port):
@@ -157,4 +157,4 @@ if __name__ == '__main__':
 
     print(asyncio.get_event_loop().run_until_complete(get_random_user_agent()))
 
-    print(asyncio.get_event_loop().run_until_complete(get_proxy_info(ip, port, getInfo=True)))
+    print(asyncio.get_event_loop().run_until_complete(get_proxy_info(ip, port, get_info=True)))
